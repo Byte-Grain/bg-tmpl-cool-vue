@@ -108,7 +108,8 @@ const Upsert = useUpsert({
 			component: {
 				name: 'cl-upload',
 				props: { type: 'file', multiple: false, limit: 1 }
-			}
+			},
+			required: true
 		}
 	]
 });

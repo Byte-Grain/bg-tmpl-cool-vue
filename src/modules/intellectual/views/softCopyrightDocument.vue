@@ -158,7 +158,8 @@ const Upsert = useUpsert({
 					listType: 'picture-card',
 					accept: '.jpg,.jpeg,.png,.pdf,.doc,.docx'
 				}
-			}
+			},
+			required: true
 		}
 	]
 });

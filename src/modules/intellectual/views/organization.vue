@@ -57,7 +57,7 @@ const getDictData = async () => {
 
 	// 从字典store获取数据
 	Object.assign(options, {
-		type: dict.get('intellectual_organization_type').value || []
+		type: dict.get('intellectual_organization_type') || []
 	});
 };
 
@@ -85,7 +85,10 @@ const Upsert = useUpsert({
 		{
 			label: t('类型'),
 			prop: 'type',
-			component: { name: 'el-radio-group', options: options.type },
+			component: {
+				name: 'el-radio-group',
+				options: dict.get('intellectual_organization_type')
+			},
 			value: 0,
 			span: 24,
 			required: true
@@ -133,7 +136,7 @@ const Table = useTable({
 		{ type: 'selection' },
 		{ label: t('编号'), prop: 'code', minWidth: 120 },
 		{ label: t('名称'), prop: 'name', minWidth: 140 },
-		{ label: t('类型'), prop: 'type', minWidth: 120, dict: options.type },
+		{ label: t('类型'), prop: 'type', minWidth: 120, dict: dict.get('intellectual_organization_type') },
 		{ label: t('联系人'), prop: 'contactPerson', minWidth: 140 },
 		{ label: t('电话'), prop: 'phone', minWidth: 140 },
 		{
