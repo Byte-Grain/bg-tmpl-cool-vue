@@ -36,34 +36,39 @@ defineOptions({
 import { useCrud, useTable, useUpsert, useSearch } from "@cool-vue/crud";
 import { useCool } from "/@/cool";
 import { useI18n } from "vue-i18n";
-import { reactive, onMounted } from "vue";
+import { reactive, ref, onMounted, computed } from "vue";
 import { useDict } from "/@/modules/dict";
 
 const { service } = useCool();
 const { t } = useI18n();
 const { dict } = useDict();
 
-// 选项配置
-const options = reactive({
-	documentType: [],
-});
+// 专利搜索选项
+const patentOptions = ref<Array<{ label: string, value: string, data: any }>>([]);
+
+// 响应式字典数据
+const documentTypeOptions = computed(() => dict.get('intellectual_document_type').value || []);
+const documentNameOptions = computed(() => dict.get('intellectual_patent_document_name').value || []);
 
 // 获取字典数据
 const getDictData = async () => {
-	const dictTypes = ['intellectual_patent_document_type'];
+	const dictTypes = [
+		'intellectual_document_type',
+		'intellectual_patent_document_name'
+	];
 	
 	// 使用字典store刷新数据
 	await dict.refresh(dictTypes);
 	
-	// 从字典store获取数据
-	Object.assign(options, {
-		documentType: dict.get('intellectual_patent_document_type').value || [],
+	console.log('专利收文字典数据加载:', {
+		documentType: documentTypeOptions.value,
+		documentName: documentNameOptions.value
 	});
 };
 
 // 初始化字典数据
-onMounted(() => {
-	getDictData();
+onMounted(async () => {
+	await getDictData();
 });
 
 // cl-upsert
@@ -72,7 +77,41 @@ const Upsert = useUpsert({
 		{
 			label: t("专利号"),
 			prop: "patentNumber",
-			component: { name: "el-input", props: { clearable: true } },
+			component: {
+				name: "el-select",
+				props: {
+					clearable: true,
+					filterable: true,
+					remote: true,
+					reserveKeyword: false,
+					remoteMethod: async (keyword: string) => {
+						if (!keyword) {
+							patentOptions.value = [];
+							return;
+						}
+						try {
+							const res = await service.intellectual.patent.page({
+								page: 1,
+								size: 10,
+								keyWord: keyword,
+							});
+							const mappedList = res.list.map((item: any) => {
+								return {
+									label: `${item.patentNumber} - ${item.name}`,
+									value: item.patentNumber,
+									data: item,
+								};
+							});
+							patentOptions.value = mappedList;
+						} catch (error) {
+							console.error('搜索专利失败:', error);
+							patentOptions.value = [];
+						}
+					},
+					placeholder: t("请输入专利号或专利名称搜索")
+				},
+				options: patentOptions
+			},
 			span: 12,
 			required: true,
 		},
@@ -81,15 +120,20 @@ const Upsert = useUpsert({
 			prop: "type",
 			component: {
 				name: "el-select",
-				options: options.documentType,
+				options: documentTypeOptions,
 				props: { clearable: true }
 			},
 			span: 12,
+			required: true,
 		},
 		{
 			label: t("名称"),
 			prop: "name",
-			component: { name: "el-input", props: { clearable: true } },
+			component: {
+				name: "el-select",
+				options: documentNameOptions,
+				props: { clearable: true }
+			},
 			span: 12,
 			required: true,
 		},
@@ -107,7 +151,13 @@ const Upsert = useUpsert({
 			prop: "attachment",
 			component: {
 				name: "cl-upload",
-				props: { type: "file", multiple: false, limit: 1 },
+				props: {
+					type: "file",
+					multiple: false,
+					limit: 1,
+					listType: "picture-card",
+					accept: ".jpg,.jpeg,.png,.pdf,.doc,.docx"
+				},
 			},
 		},
 	],
@@ -118,8 +168,19 @@ const Table = useTable({
 	columns: [
 		{ type: "selection" },
 		{ label: t("专利号"), prop: "patentNumber", minWidth: 140 },
-		{ label: t("类型"), prop: "type", minWidth: 120 },
-		{ label: t("名称"), prop: "name", minWidth: 140 },
+		{ label: t("专利名称"), prop: "patentName", minWidth: 180 },
+		{
+			label: t("类型"),
+			prop: "type",
+			minWidth: 120,
+			dict: documentTypeOptions,
+		},
+		{
+			label: t("名称"),
+			prop: "name",
+			minWidth: 140,
+			dict: documentNameOptions,
+		},
 		{
 			label: t("日期"),
 			prop: "date",
