@@ -37,9 +37,11 @@
 	import { useCool } from "/@/cool";
 	import { useI18n } from "vue-i18n";
 	import { reactive, onMounted, computed } from "vue";
+	import { useDict } from "/@/modules/dict";
 
 	const { service } = useCool();
 	const { t } = useI18n();
+	const { dict } = useDict();
 
 	// 加载机构数据
 	async function loadOrganizations() {
@@ -73,25 +75,6 @@
 
 	// 选项
 	const options = reactive({
-		patentType: [
-			{ label: t("发明专利"), value: 0 },
-			{ label: t("实用新型专利"), value: 1 },
-			{ label: t("外观设计专利"), value: 2 },
-		],
-		legalStatus: [
-			{ label: t("待申请"), value: 0 },
-			{ label: t("审查中"), value: 1 },
-			{ label: t("已授权"), value: 2 },
-			{ label: t("已驳回"), value: 3 },
-			{ label: t("已失效"), value: 4 },
-			{ label: t("待诉讼"), value: 5 },
-			{ label: t("驳回复审"), value: 6 },
-		],
-		patentLevel: [
-			{ label: t("壁垒专利"), value: 0 },
-			{ label: t("重要专利"), value: 1 },
-			{ label: t("普通专利"), value: 2 },
-		],
 		patenteeOptions: [] as Array<{ label: string; value: string }>,
 		agencyOptions: [] as Array<{ label: string; value: string }>,
 	});
@@ -161,18 +144,26 @@
 			{
 				label: t("专利类型"),
 				prop: "patentType",
-				component: { name: "el-radio-group", options: options.patentType },
+				component: { 
+					name: "el-select", 
+					options: dict.get("intellectual_patent_type"),
+					props: { clearable: true, placeholder: "请选择专利类型" }
+				},
 				value: 0,
 				required: true,
-				span: 24,
+				span: 12,
 			},
 			{
 				label: t("法律状态"),
 				prop: "legalStatus",
-				component: { name: "el-radio-group", options: options.legalStatus },
+				component: { 
+					name: "el-select", 
+					options: dict.get("intellectual_legal_status"),
+					props: { clearable: true, placeholder: "请选择法律状态" }
+				},
 				value: 0,
 				required: true,
-				span: 24,
+				span: 12,
 			},
 			{
 				label: t("发明人"),
@@ -196,7 +187,7 @@
 				component: {
 					name: "el-select",
 					props: { clearable: true, placeholder: t("请选择专利级别") },
-					options: options.patentLevel,
+					options: dict.get("intellectual_patent_level"),
 				},
 				span: 24,
 			},
@@ -264,13 +255,13 @@
 				label: t("专利类型"),
 				prop: "patentType",
 				minWidth: 120,
-				dict: options.patentType,
+				dict: dict.get("intellectual_patent_type"),
 			},
 			{
 				label: t("法律状态"),
 				prop: "legalStatus",
 				minWidth: 120,
-				dict: options.legalStatus,
+				dict: dict.get("intellectual_legal_status"),
 			},
 			{ label: t("发明人"), prop: "inventor", minWidth: 140 },
 			{ label: t("代理机构"), prop: "agency", minWidth: 140 },
@@ -283,7 +274,7 @@
 				label: t("专利级别"),
 				prop: "patentLevel",
 				minWidth: 120,
-				dict: options.patentLevel,
+				dict: dict.get("intellectual_patent_level"),
 			},
 			{
 				label: t("创建时间"),

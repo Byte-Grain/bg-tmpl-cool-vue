@@ -37,23 +37,14 @@ import { useCrud, useTable, useUpsert, useSearch } from "@cool-vue/crud";
 import { useCool } from "/@/cool";
 import { useI18n } from "vue-i18n";
 import { reactive } from "vue";
+import { useDict } from "/@/modules/dict";
 
 const { service } = useCool();
 const { t } = useI18n();
+const { dict } = useDict();
 
 // 选项
-const options = reactive({
-	type: [
-		{ label: t("文字商标"), value: 0 },
-		{ label: t("图形商标"), value: 1 },
-		{ label: t("组合商标"), value: 2 },
-	],
-	legalStatus: [
-		{ label: t("有效"), value: 0 },
-		{ label: t("无效"), value: 1 },
-		{ label: t("审中"), value: 2 },
-	],
-});
+const options = reactive({});
 
 // cl-upsert
 const Upsert = useUpsert({
@@ -72,12 +63,12 @@ const Upsert = useUpsert({
 			span: 12,
 		},
 		{
-			label: t("类型"),
-			prop: "type",
-			component: { name: "el-radio-group", options: options.type },
-			value: 0,
-			required: true,
-		},
+				label: t("类型"),
+				prop: "type",
+				component: { name: "el-radio-group", options: dict.get("intellectual_trademark_type") },
+				value: 0,
+				required: true,
+			},
 		{
 			label: t("名称"),
 			prop: "name",
@@ -123,12 +114,12 @@ const Upsert = useUpsert({
 			span: 12,
 		},
 		{
-			label: t("法律状态"),
-			prop: "legalStatus",
-			component: { name: "el-radio-group", options: options.legalStatus },
-			value: 0,
-			required: true,
-		},
+				label: t("法律状态"),
+				prop: "legalStatus",
+				component: { name: "el-radio-group", options: dict.get("intellectual_trademark_status") },
+				value: 0,
+				required: true,
+			},
 	],
 });
 
@@ -138,7 +129,7 @@ const Table = useTable({
 		{ type: "selection" },
 		{ label: t("注册号"), prop: "registrationNumber", minWidth: 140 },
 		{ label: t("来源"), prop: "source", minWidth: 120 },
-		{ label: t("类型"), prop: "type", minWidth: 120, dict: options.type },
+		{ label: t("类型"), prop: "type", minWidth: 120, dict: dict.get("intellectual_trademark_type") },
 		{ label: t("名称"), prop: "name", minWidth: 140 },
 		{
 			label: t("图片"),
@@ -169,7 +160,7 @@ const Table = useTable({
 			label: t("法律状态"),
 			prop: "legalStatus",
 			minWidth: 120,
-			dict: options.legalStatus,
+			dict: dict.get("intellectual_trademark_status"),
 		},
 		{
 			label: t("创建时间"),

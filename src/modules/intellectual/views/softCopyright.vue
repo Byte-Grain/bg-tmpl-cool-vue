@@ -33,46 +33,51 @@ defineOptions({
 	name: "intellectual-soft-copyright",
 });
 
-import { useCrud, useTable, useUpsert, useSearch } from "@cool-vue/crud";
+import { reactive, onMounted } from "vue";
+import { useUpsert, useCrud, useTable, useSearch } from "@cool-vue/crud";
 import { useCool } from "/@/cool";
 import { useI18n } from "vue-i18n";
-import { reactive } from "vue";
+import { useDict } from "/$/dict";
 
 const { service } = useCool();
 const { t } = useI18n();
+const { dict } = useDict();
 
 // 选项
 const options = reactive({
-	category: [
-		{ label: t("应用软件"), value: 0, type: "primary" },
-		{ label: t("嵌入式软件"), value: 1, type: "success" },
-		{ label: t("中间件"), value: 2, type: "warning" },
-		{ label: t("操作系统"), value: 3, type: "danger" },
-	],
-	developmentMethod: [
-		{ label: t("单独开发"), value: 0 },
-		{ label: t("合作开发"), value: 1 },
-		{ label: t("委托开发"), value: 2 },
-		{ label: t("下达任务开发"), value: 3 },
-	],
-	acquisitionMethod: [
-		{ label: t("原始取得"), value: 0 },
-		{ label: t("继受取得"), value: 1 },
-	],
-	scopeOfRight: [
-		{ label: t("全部范围"), value: 0 },
-		{ label: t("部分权力"), value: 1 },
-	],
-	legalStatus: [
-		{ label: t("未进行"), value: 0 },
-		{ label: t("待提交"), value: 1 },
-		{ label: t("待受理"), value: 2 },
-		{ label: t("受理"), value: 3 },
-		{ label: t("审查"), value: 4 },
-		{ label: t("登记"), value: 5 },
-		{ label: t("转让"), value: 6 },
-		{ label: t("许可使用"), value: 7 },
-	],
+	category: [],
+	developmentMethod: [],
+	acquisitionMethod: [],
+	scopeOfRight: [],
+	legalStatus: []
+});
+
+// 获取字典数据
+const getDictData = async () => {
+	const dictTypes = [
+		'intellectual_software_category',
+		'intellectual_development_method',
+		'intellectual_acquisition_method',
+		'intellectual_scope_of_right',
+		'intellectual_software_legal_status'
+	];
+	
+	// 使用字典store刷新数据
+	await dict.refresh(dictTypes);
+	
+	// 从字典store获取数据
+	Object.assign(options, {
+		category: dict.get('intellectual_software_category').value || [],
+		developmentMethod: dict.get('intellectual_development_method').value || [],
+		acquisitionMethod: dict.get('intellectual_acquisition_method').value || [],
+		scopeOfRight: dict.get('intellectual_scope_of_right').value || [],
+		legalStatus: dict.get('intellectual_software_legal_status').value || []
+	});
+};
+
+// 初始化字典数据
+onMounted(() => {
+	getDictData();
 });
 
 // cl-upsert

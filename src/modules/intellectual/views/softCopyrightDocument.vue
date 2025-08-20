@@ -34,28 +34,45 @@
 	});
 
 	import { useCrud, useTable, useUpsert, useSearch } from "@cool-vue/crud";
-	import { useCool } from "/@/cool";
-	import { useI18n } from "vue-i18n";
-	import { reactive, ref } from "vue";
+import { useCool } from "/@/cool";
+import { useI18n } from "vue-i18n";
+import { reactive, ref, onMounted } from "vue";
+import { useDict } from "/@/modules/dict";
 
-	const { service } = useCool();
-	const { t } = useI18n();
+const { service } = useCool();
+const { t } = useI18n();
+const { dict } = useDict();
 
-	// 软著搜索选项
-	const softCopyrightOptions = ref<Array<{ label: string, value: string, data: any }>>([]);
+// 软著搜索选项
+const softCopyrightOptions = ref<Array<{ label: string, value: string, data: any }>>([]);
 
-	// 选项配置
-	const options = reactive({
-		documentType: [
-			{ label: t("电子发文"), value: 0 },
-			{ label: t("纸质发文"), value: 1 },
-		],
-		documentName: [
-			{ label: t("版权登记表"), value: 0 },
-			{ label: t("版权证书"), value: 1 },
-			{ label: t("补正通知"), value: 2 },
-		],
+// 选项配置
+const options = reactive({
+	documentType: [],
+	documentName: [],
+});
+
+// 获取字典数据
+const getDictData = async () => {
+	const dictTypes = [
+		'intellectual_document_type',
+		'intellectual_soft_copyright_document_name'
+	];
+	
+	// 使用字典store刷新数据
+	await dict.refresh(dictTypes);
+	
+	// 从字典store获取数据
+	Object.assign(options, {
+		documentType: dict.get('intellectual_document_type').value || [],
+		documentName: dict.get('intellectual_soft_copyright_document_name').value || [],
 	});
+};
+
+// 初始化字典数据
+onMounted(() => {
+	getDictData();
+});
 
 	// cl-upsert
 	const Upsert = useUpsert({

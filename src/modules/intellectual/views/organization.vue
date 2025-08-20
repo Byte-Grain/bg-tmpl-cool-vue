@@ -34,20 +34,37 @@
 	});
 
 	import { useCrud, useTable, useUpsert, useSearch } from "@cool-vue/crud";
-	import { useCool } from "/@/cool";
-	import { useI18n } from "vue-i18n";
-	import { reactive } from "vue";
+import { useCool } from "/@/cool";
+import { useI18n } from "vue-i18n";
+import { reactive, onMounted } from "vue";
+import { useDict } from "/@/modules/dict";
 
-	const { service } = useCool();
-	const { t } = useI18n();
+const { service } = useCool();
+const { t } = useI18n();
+const { dict } = useDict();
 
-	// 选项
-	const options = reactive({
-		type: [
-			{ label: t("代理机构"), value: 0 },
-			{ label: t("权利人"), value: 1 },
-		],
+// 选项
+const options = reactive({
+	type: [],
+});
+
+// 获取字典数据
+const getDictData = async () => {
+	const dictTypes = ['intellectual_organization_type'];
+	
+	// 使用字典store刷新数据
+	await dict.refresh(dictTypes);
+	
+	// 从字典store获取数据
+	Object.assign(options, {
+		type: dict.get('intellectual_organization_type').value || [],
 	});
+};
+
+// 初始化字典数据
+onMounted(() => {
+	getDictData();
+});
 
 	// cl-upsert
 	const Upsert = useUpsert({

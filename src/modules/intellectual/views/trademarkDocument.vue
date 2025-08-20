@@ -36,9 +36,35 @@ defineOptions({
 import { useCrud, useTable, useUpsert, useSearch } from "@cool-vue/crud";
 import { useCool } from "/@/cool";
 import { useI18n } from "vue-i18n";
+import { reactive, onMounted } from "vue";
+import { useDict } from "/@/modules/dict";
 
 const { service } = useCool();
 const { t } = useI18n();
+const { dict } = useDict();
+
+// 选项配置
+const options = reactive({
+	documentType: [],
+});
+
+// 获取字典数据
+const getDictData = async () => {
+	const dictTypes = ['intellectual_trademark_document_type'];
+	
+	// 使用字典store刷新数据
+	await dict.refresh(dictTypes);
+	
+	// 从字典store获取数据
+	Object.assign(options, {
+		documentType: dict.get('intellectual_trademark_document_type').value || [],
+	});
+};
+
+// 初始化字典数据
+onMounted(() => {
+	getDictData();
+});
 
 // cl-upsert
 const Upsert = useUpsert({
@@ -53,7 +79,11 @@ const Upsert = useUpsert({
 		{
 			label: t("类型"),
 			prop: "type",
-			component: { name: "el-input", props: { clearable: true } },
+			component: {
+				name: "el-select",
+				options: options.documentType,
+				props: { clearable: true }
+			},
 			span: 12,
 		},
 		{
