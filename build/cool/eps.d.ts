@@ -802,14 +802,24 @@ declare namespace Eps {
 		serialNumber?: string;
 
 		/**
+		 * 软著名称
+		 */
+		softCopyrightName?: string;
+
+		/**
+		 * 法律状态
+		 */
+		legalStatus?: number;
+
+		/**
 		 * 类型
 		 */
-		type?: string;
+		type?: number;
 
 		/**
 		 * 名称
 		 */
-		name?: string;
+		name?: number;
 
 		/**
 		 * 日期
@@ -1490,41 +1500,6 @@ declare namespace Eps {
 		list: DictTypeEntity[];
 	}
 
-	interface PluginInfoPageResponse {
-		pagination: PagePagination;
-		list: PluginInfoEntity[];
-	}
-
-	interface RecycleDataPageResponse {
-		pagination: PagePagination;
-		list: RecycleDataEntity[];
-	}
-
-	interface SpaceInfoPageResponse {
-		pagination: PagePagination;
-		list: SpaceInfoEntity[];
-	}
-
-	interface SpaceTypePageResponse {
-		pagination: PagePagination;
-		list: SpaceTypeEntity[];
-	}
-
-	interface TaskInfoPageResponse {
-		pagination: PagePagination;
-		list: TaskInfoEntity[];
-	}
-
-	interface UserAddressPageResponse {
-		pagination: PagePagination;
-		list: UserAddressEntity[];
-	}
-
-	interface UserInfoPageResponse {
-		pagination: PagePagination;
-		list: UserInfoEntity[];
-	}
-
 	interface IntellectualOrganizationPageResponse {
 		pagination: PagePagination;
 		list: IntellectualOrganizationEntity[];
@@ -1558,6 +1533,41 @@ declare namespace Eps {
 	interface IntellectualTrademarkDocumentPageResponse {
 		pagination: PagePagination;
 		list: IntellectualTrademarkDocumentEntity[];
+	}
+
+	interface PluginInfoPageResponse {
+		pagination: PagePagination;
+		list: PluginInfoEntity[];
+	}
+
+	interface RecycleDataPageResponse {
+		pagination: PagePagination;
+		list: RecycleDataEntity[];
+	}
+
+	interface SpaceInfoPageResponse {
+		pagination: PagePagination;
+		list: SpaceInfoEntity[];
+	}
+
+	interface SpaceTypePageResponse {
+		pagination: PagePagination;
+		list: SpaceTypeEntity[];
+	}
+
+	interface TaskInfoPageResponse {
+		pagination: PagePagination;
+		list: TaskInfoEntity[];
+	}
+
+	interface UserAddressPageResponse {
+		pagination: PagePagination;
+		list: UserAddressEntity[];
+	}
+
+	interface UserInfoPageResponse {
+		pagination: PagePagination;
+		list: UserInfoEntity[];
 	}
 
 	interface BaseCoding {
@@ -2263,411 +2273,6 @@ declare namespace Eps {
 		request: Request;
 	}
 
-	interface PluginInfo {
-		/**
-		 * 安装插件
-		 */
-		install(data?: any): Promise<any>;
-
-		/**
-		 * 删除
-		 */
-		delete(data?: any): Promise<any>;
-
-		/**
-		 * 修改
-		 */
-		update(data?: any): Promise<any>;
-
-		/**
-		 * 单个信息
-		 */
-		info(data?: any): Promise<PluginInfoEntity>;
-
-		/**
-		 * 列表查询
-		 */
-		list(data?: any): Promise<PluginInfoEntity[]>;
-
-		/**
-		 * 分页查询
-		 */
-		page(data?: any): Promise<PluginInfoPageResponse>;
-
-		/**
-		 * 新增
-		 */
-		add(data?: any): Promise<any>;
-
-		/**
-		 * 权限标识
-		 */
-		permission: {
-			install: string;
-			delete: string;
-			update: string;
-			info: string;
-			list: string;
-			page: string;
-			add: string;
-		};
-
-		/**
-		 * 权限状态
-		 */
-		_permission: {
-			install: boolean;
-			delete: boolean;
-			update: boolean;
-			info: boolean;
-			list: boolean;
-			page: boolean;
-			add: boolean;
-		};
-
-		request: Request;
-	}
-
-	interface RecycleData {
-		/**
-		 * 恢复数据
-		 */
-		restore(data?: any): Promise<any>;
-
-		/**
-		 * 单个信息
-		 */
-		info(data?: any): Promise<RecycleDataEntity>;
-
-		/**
-		 * 分页查询
-		 */
-		page(data?: any): Promise<RecycleDataPageResponse>;
-
-		/**
-		 * 权限标识
-		 */
-		permission: { restore: string; info: string; page: string };
-
-		/**
-		 * 权限状态
-		 */
-		_permission: { restore: boolean; info: boolean; page: boolean };
-
-		request: Request;
-	}
-
-	interface SpaceInfo {
-		/**
-		 * 删除
-		 */
-		delete(data?: any): Promise<any>;
-
-		/**
-		 * 修改
-		 */
-		update(data?: any): Promise<any>;
-
-		/**
-		 * 单个信息
-		 */
-		info(data?: any): Promise<SpaceInfoEntity>;
-
-		/**
-		 * 列表查询
-		 */
-		list(data?: any): Promise<SpaceInfoEntity[]>;
-
-		/**
-		 * 分页查询
-		 */
-		page(data?: any): Promise<SpaceInfoPageResponse>;
-
-		/**
-		 * 新增
-		 */
-		add(data?: any): Promise<any>;
-
-		/**
-		 * 权限标识
-		 */
-		permission: {
-			delete: string;
-			update: string;
-			info: string;
-			list: string;
-			page: string;
-			add: string;
-		};
-
-		/**
-		 * 权限状态
-		 */
-		_permission: {
-			delete: boolean;
-			update: boolean;
-			info: boolean;
-			list: boolean;
-			page: boolean;
-			add: boolean;
-		};
-
-		request: Request;
-	}
-
-	interface SpaceType {
-		/**
-		 * 删除
-		 */
-		delete(data?: any): Promise<any>;
-
-		/**
-		 * 修改
-		 */
-		update(data?: any): Promise<any>;
-
-		/**
-		 * 单个信息
-		 */
-		info(data?: any): Promise<SpaceTypeEntity>;
-
-		/**
-		 * 列表查询
-		 */
-		list(data?: any): Promise<SpaceTypeEntity[]>;
-
-		/**
-		 * 分页查询
-		 */
-		page(data?: any): Promise<SpaceTypePageResponse>;
-
-		/**
-		 * 新增
-		 */
-		add(data?: any): Promise<any>;
-
-		/**
-		 * 权限标识
-		 */
-		permission: {
-			delete: string;
-			update: string;
-			info: string;
-			list: string;
-			page: string;
-			add: string;
-		};
-
-		/**
-		 * 权限状态
-		 */
-		_permission: {
-			delete: boolean;
-			update: boolean;
-			info: boolean;
-			list: boolean;
-			page: boolean;
-			add: boolean;
-		};
-
-		request: Request;
-	}
-
-	interface TaskInfo {
-		/**
-		 * 删除
-		 */
-		delete(data?: any): Promise<any>;
-
-		/**
-		 * 修改
-		 */
-		update(data?: any): Promise<any>;
-
-		/**
-		 * 开始
-		 */
-		start(data?: any): Promise<any>;
-
-		/**
-		 * 执行一次
-		 */
-		once(data?: any): Promise<any>;
-
-		/**
-		 * 停止
-		 */
-		stop(data?: any): Promise<any>;
-
-		/**
-		 * 单个信息
-		 */
-		info(data?: any): Promise<TaskInfoEntity>;
-
-		/**
-		 * 分页查询
-		 */
-		page(data?: any): Promise<TaskInfoPageResponse>;
-
-		/**
-		 * 日志
-		 */
-		log(data?: any): Promise<any>;
-
-		/**
-		 * 新增
-		 */
-		add(data?: any): Promise<any>;
-
-		/**
-		 * 权限标识
-		 */
-		permission: {
-			delete: string;
-			update: string;
-			start: string;
-			once: string;
-			stop: string;
-			info: string;
-			page: string;
-			log: string;
-			add: string;
-		};
-
-		/**
-		 * 权限状态
-		 */
-		_permission: {
-			delete: boolean;
-			update: boolean;
-			start: boolean;
-			once: boolean;
-			stop: boolean;
-			info: boolean;
-			page: boolean;
-			log: boolean;
-			add: boolean;
-		};
-
-		request: Request;
-	}
-
-	interface UserAddress {
-		/**
-		 * 删除
-		 */
-		delete(data?: any): Promise<any>;
-
-		/**
-		 * 修改
-		 */
-		update(data?: any): Promise<any>;
-
-		/**
-		 * 单个信息
-		 */
-		info(data?: any): Promise<UserAddressEntity>;
-
-		/**
-		 * 列表查询
-		 */
-		list(data?: any): Promise<UserAddressEntity[]>;
-
-		/**
-		 * 分页查询
-		 */
-		page(data?: any): Promise<UserAddressPageResponse>;
-
-		/**
-		 * 新增
-		 */
-		add(data?: any): Promise<any>;
-
-		/**
-		 * 权限标识
-		 */
-		permission: {
-			delete: string;
-			update: string;
-			info: string;
-			list: string;
-			page: string;
-			add: string;
-		};
-
-		/**
-		 * 权限状态
-		 */
-		_permission: {
-			delete: boolean;
-			update: boolean;
-			info: boolean;
-			list: boolean;
-			page: boolean;
-			add: boolean;
-		};
-
-		request: Request;
-	}
-
-	interface UserInfo {
-		/**
-		 * 删除
-		 */
-		delete(data?: any): Promise<any>;
-
-		/**
-		 * 修改
-		 */
-		update(data?: any): Promise<any>;
-
-		/**
-		 * 单个信息
-		 */
-		info(data?: any): Promise<UserInfoEntity>;
-
-		/**
-		 * 列表查询
-		 */
-		list(data?: any): Promise<UserInfoEntity[]>;
-
-		/**
-		 * 分页查询
-		 */
-		page(data?: any): Promise<UserInfoPageResponse>;
-
-		/**
-		 * 新增
-		 */
-		add(data?: any): Promise<any>;
-
-		/**
-		 * 权限标识
-		 */
-		permission: {
-			delete: string;
-			update: string;
-			info: string;
-			list: string;
-			page: string;
-			add: string;
-		};
-
-		/**
-		 * 权限状态
-		 */
-		_permission: {
-			delete: boolean;
-			update: boolean;
-			info: boolean;
-			list: boolean;
-			page: boolean;
-			add: boolean;
-		};
-
-		request: Request;
-	}
-
 	interface IntellectualOrganization {
 		/**
 		 * 删除
@@ -3074,6 +2679,411 @@ declare namespace Eps {
 		request: Request;
 	}
 
+	interface PluginInfo {
+		/**
+		 * 安装插件
+		 */
+		install(data?: any): Promise<any>;
+
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<PluginInfoEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<PluginInfoEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<PluginInfoPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			install: string;
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			install: boolean;
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface RecycleData {
+		/**
+		 * 恢复数据
+		 */
+		restore(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<RecycleDataEntity>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<RecycleDataPageResponse>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: { restore: string; info: string; page: string };
+
+		/**
+		 * 权限状态
+		 */
+		_permission: { restore: boolean; info: boolean; page: boolean };
+
+		request: Request;
+	}
+
+	interface SpaceInfo {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<SpaceInfoEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<SpaceInfoEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<SpaceInfoPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface SpaceType {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<SpaceTypeEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<SpaceTypeEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<SpaceTypePageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface TaskInfo {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 开始
+		 */
+		start(data?: any): Promise<any>;
+
+		/**
+		 * 执行一次
+		 */
+		once(data?: any): Promise<any>;
+
+		/**
+		 * 停止
+		 */
+		stop(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<TaskInfoEntity>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<TaskInfoPageResponse>;
+
+		/**
+		 * 日志
+		 */
+		log(data?: any): Promise<any>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			start: string;
+			once: string;
+			stop: string;
+			info: string;
+			page: string;
+			log: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			start: boolean;
+			once: boolean;
+			stop: boolean;
+			info: boolean;
+			page: boolean;
+			log: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface UserAddress {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<UserAddressEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<UserAddressEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<UserAddressPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface UserInfo {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<UserInfoEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<UserInfoEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<UserInfoPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
 	interface RequestOptions {
 		url: string;
 		method?: "OPTIONS" | "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "TRACE" | "CONNECT";
@@ -3106,11 +3116,6 @@ declare namespace Eps {
 		};
 		demo: { goods: DemoGoods; tenant: DemoTenant };
 		dict: { info: DictInfo; type: DictType };
-		plugin: { info: PluginInfo };
-		recycle: { data: RecycleData };
-		space: { info: SpaceInfo; type: SpaceType };
-		task: { info: TaskInfo };
-		user: { address: UserAddress; info: UserInfo };
 		intellectual: {
 			organization: IntellectualOrganization;
 			patent: IntellectualPatent;
@@ -3120,5 +3125,10 @@ declare namespace Eps {
 			trademark: IntellectualTrademark;
 			trademarkDocument: IntellectualTrademarkDocument;
 		};
+		plugin: { info: PluginInfo };
+		recycle: { data: RecycleData };
+		space: { info: SpaceInfo; type: SpaceType };
+		task: { info: TaskInfo };
+		user: { address: UserAddress; info: UserInfo };
 	};
 }

@@ -138,7 +138,13 @@
 				prop: "attachment",
 				component: {
 					name: "cl-upload",
-					props: { type: "file", multiple: true, limit: 10 },
+					props: {
+						type: "file",
+						multiple: false,
+						limit: 1,
+						listType: "picture-card",
+						accept: ".jpg,.jpeg,.png,.pdf,.doc,.docx"
+					},
 				},
 			},
 		],
@@ -173,11 +179,11 @@
 				},
 			},
 			{
-				label: t("附件"),
-				prop: "attachment",
-				minWidth: 120,
-				component: { name: "cl-link" },
-			},
+			label: t("附件"),
+			prop: "attachment",
+			minWidth: 120,
+			component: { name: "cl-link" },
+		},
 			{
 				label: t("创建时间"),
 				prop: "createTime",

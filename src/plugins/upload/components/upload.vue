@@ -408,7 +408,7 @@ function update() {
 	if (!check()) {
 		const urls = getUrls(list.value);
 
-		const val = props.multiple ? getUrls(list.value) : urls[0] || '';
+		const val = props.multiple ? urls : urls[0] || '';
 
 		// 更新绑定值
 		emit('update:modelValue', val);

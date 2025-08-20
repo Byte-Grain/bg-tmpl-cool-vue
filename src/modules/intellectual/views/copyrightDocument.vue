@@ -30,7 +30,7 @@
 
 <script lang="ts" setup>
 defineOptions({
-	name: "intellectual-copyrightDocument",
+	name: "intellectual-copyright-document",
 });
 
 import { useCrud, useTable, useUpsert, useSearch } from "@cool-vue/crud";
@@ -77,7 +77,7 @@ const Upsert = useUpsert({
 			prop: "attachment",
 			component: {
 				name: "cl-upload",
-				props: { type: "file", multiple: true, limit: 10 },
+				props: { type: "file", multiple: false, limit: 1 },
 			},
 		},
 	],
@@ -130,7 +130,7 @@ const Search = useSearch();
 // cl-crud
 const Crud = useCrud(
 	{
-		service: service.intellectual.copyrightDocument,
+		service: service.intellectual.softCopyrightDocument,
 	},
 	(app) => {
 		app.refresh();
