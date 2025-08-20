@@ -509,6 +509,11 @@ declare namespace Eps {
 		id?: number;
 
 		/**
+		 * 编号
+		 */
+		code?: string;
+
+		/**
 		 * 名称
 		 */
 		name?: string;
@@ -591,6 +596,11 @@ declare namespace Eps {
 		certificateDate?: Date;
 
 		/**
+		 * 证书号
+		 */
+		certificateNumber?: string;
+
+		/**
 		 * 专利权利人
 		 */
 		patentee?: string;
@@ -623,7 +633,17 @@ declare namespace Eps {
 		/**
 		 * 专利级别
 		 */
-		patentLevel?: string;
+		patentLevel?: number;
+
+		/**
+		 * 权力要求
+		 */
+		claimsRequirement?: string;
+
+		/**
+		 * 备注
+		 */
+		remark?: string;
 
 		/**
 		 * 创建时间
