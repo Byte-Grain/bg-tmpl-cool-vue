@@ -502,6 +502,465 @@ declare namespace Eps {
 		[key: string]: any;
 	}
 
+	interface IntellectualOrganizationEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 名称
+		 */
+		name?: string;
+
+		/**
+		 * 类型
+		 */
+		type?: number;
+
+		/**
+		 * 联系人
+		 */
+		contactPerson?: string;
+
+		/**
+		 * 电话
+		 */
+		phone?: string;
+
+		/**
+		 * 地址
+		 */
+		address?: string;
+
+		/**
+		 * 邮箱
+		 */
+		email?: string;
+
+		/**
+		 * 备注
+		 */
+		remark?: string;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface IntellectualPatentEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 案号
+		 */
+		caseNumber?: string;
+
+		/**
+		 * 专利号
+		 */
+		patentNumber?: string;
+
+		/**
+		 * 名称
+		 */
+		name?: string;
+
+		/**
+		 * 申请日
+		 */
+		applicationDate?: Date;
+
+		/**
+		 * 证书日
+		 */
+		certificateDate?: Date;
+
+		/**
+		 * 专利权利人
+		 */
+		patentee?: string;
+
+		/**
+		 * 专利类型
+		 */
+		patentType?: number;
+
+		/**
+		 * 法律状态
+		 */
+		legalStatus?: number;
+
+		/**
+		 * 发明人
+		 */
+		inventor?: string;
+
+		/**
+		 * 代理机构
+		 */
+		agency?: string;
+
+		/**
+		 * 授权公告号
+		 */
+		authorizationAnnouncementNumber?: string;
+
+		/**
+		 * 专利级别
+		 */
+		patentLevel?: string;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface IntellectualPatentDocumentEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 专利号
+		 */
+		patentNumber?: string;
+
+		/**
+		 * 类型
+		 */
+		type?: string;
+
+		/**
+		 * 名称
+		 */
+		name?: string;
+
+		/**
+		 * 日期
+		 */
+		date?: Date;
+
+		/**
+		 * 附件
+		 */
+		attachment?: string;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface IntellectualSoftCopyrightEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 名称
+		 */
+		name?: string;
+
+		/**
+		 * 版本
+		 */
+		version?: string;
+
+		/**
+		 * 简称
+		 */
+		shortName?: string;
+
+		/**
+		 * 分类
+		 */
+		category?: number;
+
+		/**
+		 * 流水号
+		 */
+		serialNumber?: string;
+
+		/**
+		 * 登记号
+		 */
+		registrationNumber?: string;
+
+		/**
+		 * 证书号
+		 */
+		certificateNumber?: string;
+
+		/**
+		 * 开发方式
+		 */
+		developmentMethod?: number;
+
+		/**
+		 * 完成日
+		 */
+		completionDate?: Date;
+
+		/**
+		 * 发表日
+		 */
+		publicationDate?: Date;
+
+		/**
+		 * 申请日
+		 */
+		applicationDate?: Date;
+
+		/**
+		 * 取得方式
+		 */
+		acquisitionMethod?: string;
+
+		/**
+		 * 权利人
+		 */
+		rightHolder?: string;
+
+		/**
+		 * 权利范围
+		 */
+		scopeOfRight?: string;
+
+		/**
+		 * 申请人
+		 */
+		applicant?: string;
+
+		/**
+		 * 法律状态
+		 */
+		legalStatus?: number;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface IntellectualSoftCopyrightDocumentEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 流水号
+		 */
+		serialNumber?: string;
+
+		/**
+		 * 类型
+		 */
+		type?: string;
+
+		/**
+		 * 名称
+		 */
+		name?: string;
+
+		/**
+		 * 日期
+		 */
+		date?: Date;
+
+		/**
+		 * 附件
+		 */
+		attachment?: string;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface IntellectualTrademarkEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 注册号
+		 */
+		registrationNumber?: string;
+
+		/**
+		 * 来源
+		 */
+		source?: string;
+
+		/**
+		 * 类型
+		 */
+		type?: number;
+
+		/**
+		 * 名称
+		 */
+		name?: string;
+
+		/**
+		 * 图片
+		 */
+		image?: string;
+
+		/**
+		 * 分类号
+		 */
+		classificationNumber?: string;
+
+		/**
+		 * 注册人
+		 */
+		registrant?: string;
+
+		/**
+		 * 申请日
+		 */
+		applicationDate?: Date;
+
+		/**
+		 * 服务内容
+		 */
+		serviceContent?: string;
+
+		/**
+		 * 代理机构
+		 */
+		agency?: string;
+
+		/**
+		 * 法律状态
+		 */
+		legalStatus?: number;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface IntellectualTrademarkDocumentEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 注册号
+		 */
+		registrationNumber?: string;
+
+		/**
+		 * 类型
+		 */
+		type?: string;
+
+		/**
+		 * 名称
+		 */
+		name?: string;
+
+		/**
+		 * 日期
+		 */
+		date?: Date;
+
+		/**
+		 * 附件
+		 */
+		attachment?: string;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
 	interface PluginInfoEntity {
 		/**
 		 * ID
@@ -961,26 +1420,6 @@ declare namespace Eps {
 		description?: string;
 
 		/**
-		 * 生日
-		 */
-		birthday?: string;
-
-		/**
-		 * 省
-		 */
-		province?: string;
-
-		/**
-		 * 市
-		 */
-		city?: string;
-
-		/**
-		 * 区
-		 */
-		district?: string;
-
-		/**
 		 * 创建时间
 		 */
 		createTime?: string;
@@ -1084,6 +1523,41 @@ declare namespace Eps {
 	interface UserInfoPageResponse {
 		pagination: PagePagination;
 		list: UserInfoEntity[];
+	}
+
+	interface IntellectualOrganizationPageResponse {
+		pagination: PagePagination;
+		list: IntellectualOrganizationEntity[];
+	}
+
+	interface IntellectualPatentPageResponse {
+		pagination: PagePagination;
+		list: IntellectualPatentEntity[];
+	}
+
+	interface IntellectualPatentDocumentPageResponse {
+		pagination: PagePagination;
+		list: IntellectualPatentDocumentEntity[];
+	}
+
+	interface IntellectualSoftCopyrightPageResponse {
+		pagination: PagePagination;
+		list: IntellectualSoftCopyrightEntity[];
+	}
+
+	interface IntellectualSoftCopyrightDocumentPageResponse {
+		pagination: PagePagination;
+		list: IntellectualSoftCopyrightDocumentEntity[];
+	}
+
+	interface IntellectualTrademarkPageResponse {
+		pagination: PagePagination;
+		list: IntellectualTrademarkEntity[];
+	}
+
+	interface IntellectualTrademarkDocumentPageResponse {
+		pagination: PagePagination;
+		list: IntellectualTrademarkDocumentEntity[];
 	}
 
 	interface BaseCoding {
@@ -2194,6 +2668,412 @@ declare namespace Eps {
 		request: Request;
 	}
 
+	interface IntellectualOrganization {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<IntellectualOrganizationEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<IntellectualOrganizationEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<IntellectualOrganizationPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface IntellectualPatent {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<IntellectualPatentEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<IntellectualPatentEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<IntellectualPatentPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface IntellectualPatentDocument {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<IntellectualPatentDocumentEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<IntellectualPatentDocumentEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<IntellectualPatentDocumentPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface IntellectualSoftCopyright {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<IntellectualSoftCopyrightEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<IntellectualSoftCopyrightEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<IntellectualSoftCopyrightPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface IntellectualSoftCopyrightDocument {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<IntellectualSoftCopyrightDocumentEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<IntellectualSoftCopyrightDocumentEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<IntellectualSoftCopyrightDocumentPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface IntellectualTrademark {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<IntellectualTrademarkEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<IntellectualTrademarkEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<IntellectualTrademarkPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface IntellectualTrademarkDocument {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<IntellectualTrademarkDocumentEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<IntellectualTrademarkDocumentEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<IntellectualTrademarkDocumentPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
 	interface RequestOptions {
 		url: string;
 		method?: "OPTIONS" | "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "TRACE" | "CONNECT";
@@ -2231,5 +3111,14 @@ declare namespace Eps {
 		space: { info: SpaceInfo; type: SpaceType };
 		task: { info: TaskInfo };
 		user: { address: UserAddress; info: UserInfo };
+		intellectual: {
+			organization: IntellectualOrganization;
+			patent: IntellectualPatent;
+			patentDocument: IntellectualPatentDocument;
+			softCopyright: IntellectualSoftCopyright;
+			softCopyrightDocument: IntellectualSoftCopyrightDocument;
+			trademark: IntellectualTrademark;
+			trademarkDocument: IntellectualTrademarkDocument;
+		};
 	};
 }
