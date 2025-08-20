@@ -3153,7 +3153,8 @@ declare namespace Eps {
 		| "intellectual_trademark_document_type"
 		| "intellectual_patent_document_name"
 		| "intellectual_trademark_source"
-		| "intellectual_trademark_classification";
+		| "intellectual_trademark_classification"
+		| "intellectual_trademark_document_name";
 
 	type Service = {
 		request: Request;

@@ -36,28 +36,30 @@ defineOptions({
 import { useCrud, useTable, useUpsert, useSearch } from '@cool-vue/crud';
 import { useCool } from '/@/cool';
 import { useI18n } from 'vue-i18n';
-import { reactive, onMounted } from 'vue';
+import { reactive, ref, onMounted, computed } from 'vue';
 import { useDict } from '/@/modules/dict';
 
 const { service } = useCool();
 const { t } = useI18n();
 const { dict } = useDict();
 
-// 选项配置
-const options = reactive({
-	documentType: []
-});
+// 商标搜索选项
+const trademarkOptions = ref<Array<{ label: string; value: string; data: any }>>([]);
+
+// 响应式字典数据
+const documentTypeOptions = computed(() => dict.get('intellectual_trademark_document_type')?.value || []);
+const documentNameOptions = computed(() => dict.get('intellectual_trademark_document_name')?.value || []);
 
 // 获取字典数据
 const getDictData = async () => {
-	const dictTypes = ['intellectual_trademark_document_type'];
+	const dictTypes = ['intellectual_trademark_document_type', 'intellectual_trademark_document_name'];
 
 	// 使用字典store刷新数据
 	await dict.refresh(dictTypes);
 
-	// 从字典store获取数据
-	Object.assign(options, {
-		documentType: dict.get('intellectual_trademark_document_type').value || []
+	console.log('商标收文字典数据加载:', {
+		documentType: dict.get('intellectual_trademark_document_type'),
+		documentName: dict.get('intellectual_trademark_document_name')
 	});
 };
 
@@ -72,7 +74,41 @@ const Upsert = useUpsert({
 		{
 			label: t('注册号'),
 			prop: 'registrationNumber',
-			component: { name: 'el-input', props: { clearable: true } },
+			component: {
+				name: 'el-select',
+				props: {
+					clearable: true,
+					filterable: true,
+					remote: true,
+					reserveKeyword: false,
+					remoteMethod: async (keyword: string) => {
+						if (!keyword) {
+							trademarkOptions.value = [];
+							return;
+						}
+						try {
+							const res = await service.intellectual.trademark.page({
+								page: 1,
+								size: 10,
+								keyWord: keyword
+							});
+							const mappedList = res.list.map((item: any) => {
+								return {
+									label: `${item.registrationNumber} - ${item.name}`,
+									value: item.registrationNumber,
+									data: item
+								};
+							});
+							trademarkOptions.value = mappedList;
+						} catch (error) {
+							console.error('搜索商标失败:', error);
+							trademarkOptions.value = [];
+						}
+					},
+					placeholder: t('请输入注册号或商标名称搜索')
+				},
+				options: trademarkOptions
+			},
 			span: 12,
 			required: true
 		},
@@ -81,15 +117,20 @@ const Upsert = useUpsert({
 			prop: 'type',
 			component: {
 				name: 'el-select',
-				options: options.documentType,
+				options: documentTypeOptions,
 				props: { clearable: true }
 			},
-			span: 12
+			span: 12,
+			required: true
 		},
 		{
 			label: t('名称'),
 			prop: 'name',
-			component: { name: 'el-input', props: { clearable: true } },
+			component: {
+				name: 'el-select',
+				options: documentNameOptions,
+				props: { clearable: true }
+			},
 			span: 12,
 			required: true
 		},
@@ -100,7 +141,8 @@ const Upsert = useUpsert({
 				name: 'el-date-picker',
 				props: { type: 'date', valueFormat: 'YYYY-MM-DD' }
 			},
-			span: 12
+			span: 12,
+			required: true
 		},
 		{
 			label: t('附件'),

@@ -49,7 +49,6 @@
 	"发明人": "Inventor",
 	"授权公告号": "Grant Publication Number",
 	"专利级别": "Patent Level",
-	"证书号": "Certificate Number",
 	"权力要求": "Claims Requirement",
 	"请输入权力要求": "Please enter claims requirement",
 	"备注": "Remark",
@@ -80,7 +79,6 @@
 	"电话": "Phone",
 	"地址": "Address",
 	"邮箱": "Email",
-	"备注": "Remarks",
 	"应用软件": "Application Software",
 	"嵌入式软件": "Embedded Software",
 	"中间件": "Middleware",
@@ -105,5 +103,13 @@
 	"纸质发文": "Paper Document",
 	"版权登记表": "Copyright Registration Form",
 	"版权证书": "Copyright Certificate",
-	"补正通知": "Correction Notice"
+	"补正通知": "Correction Notice",
+	"请选择注册人": "Please select registrant",
+	"注册生效日": "Registration Effective Date",
+	"有效期": "Validity Period",
+	"申请服务内容": "Application Service Content",
+	"核定使用商品/服务项目": "Approved Goods/Services",
+	"专利名称": "Patent Name",
+	"请输入专利号或专利名称搜索": "Please enter patent number or patent name to search",
+	"请输入注册号或商标名称搜索": "Please enter registration number or trademark name to search"
 }
