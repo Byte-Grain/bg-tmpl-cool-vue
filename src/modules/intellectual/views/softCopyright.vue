@@ -30,7 +30,7 @@
 
 <script lang="ts" setup>
 defineOptions({
-	name: "intellectual-softCopyright",
+	name: "intellectual-soft-copyright",
 });
 
 import { useCrud, useTable, useUpsert, useSearch } from "@cool-vue/crud";
@@ -44,24 +44,41 @@ const { t } = useI18n();
 // 选项
 const options = reactive({
 	category: [
-		{ label: t("软件"), value: 0, type: "danger" },
-		{ label: t("作品"), value: 1, type: "success" },
+		{ label: t("应用软件"), value: 0, type: "primary" },
+		{ label: t("嵌入式软件"), value: 1, type: "success" },
+		{ label: t("中间件"), value: 2, type: "warning" },
+		{ label: t("操作系统"), value: 3, type: "danger" },
 	],
 	developmentMethod: [
-		{ label: t("独立开发"), value: 0 },
+		{ label: t("单独开发"), value: 0 },
 		{ label: t("合作开发"), value: 1 },
 		{ label: t("委托开发"), value: 2 },
+		{ label: t("下达任务开发"), value: 3 },
+	],
+	acquisitionMethod: [
+		{ label: t("原始取得"), value: 0 },
+		{ label: t("继受取得"), value: 1 },
+	],
+	scopeOfRight: [
+		{ label: t("全部范围"), value: 0 },
+		{ label: t("部分权力"), value: 1 },
 	],
 	legalStatus: [
-		{ label: t("有效"), value: 0 },
-		{ label: t("无效"), value: 1 },
-		{ label: t("审中"), value: 2 },
+		{ label: t("未进行"), value: 0 },
+		{ label: t("待提交"), value: 1 },
+		{ label: t("待受理"), value: 2 },
+		{ label: t("受理"), value: 3 },
+		{ label: t("审查"), value: 4 },
+		{ label: t("登记"), value: 5 },
+		{ label: t("转让"), value: 6 },
+		{ label: t("许可使用"), value: 7 },
 	],
 });
 
 // cl-upsert
 const Upsert = useUpsert({
 	items: [
+		// 基本信息
 		{
 			label: t("名称"),
 			prop: "name",
@@ -74,6 +91,7 @@ const Upsert = useUpsert({
 			prop: "version",
 			component: { name: "el-input", props: { clearable: true } },
 			span: 12,
+			required: true,
 		},
 		{
 			label: t("简称"),
@@ -86,8 +104,10 @@ const Upsert = useUpsert({
 			prop: "category",
 			component: { name: "el-radio-group", options: options.category },
 			value: 0,
+			span: 12,
 			required: true,
 		},
+		// 编号信息
 		{
 			label: t("流水号"),
 			prop: "serialNumber",
@@ -110,12 +130,14 @@ const Upsert = useUpsert({
 			label: t("开发方式"),
 			prop: "developmentMethod",
 			component: {
-				name: "el-radio-group",
+				name: "el-select",
 				options: options.developmentMethod,
+				props: { clearable: true }
 			},
 			value: 0,
-			required: true,
+			span: 12,
 		},
+		// 日期信息
 		{
 			label: t("完成日"),
 			prop: "completionDate",
@@ -144,39 +166,50 @@ const Upsert = useUpsert({
 			span: 12,
 		},
 		{
-			label: t("取得方式"),
-			prop: "acquisitionMethod",
-			component: { name: "el-input", props: { clearable: true } },
-			span: 12,
-		},
-		{
-			label: t("权利人"),
-			prop: "rightHolder",
-			component: { name: "el-input", props: { clearable: true } },
+			label: t("法律状态"),
+			prop: "legalStatus",
+			component: { 
+				name: "el-select", 
+				options: options.legalStatus,
+				props: { clearable: true }
+			},
+			value: 0,
 			span: 12,
 			required: true,
+		},
+		// 权利信息
+		{
+			label: t("取得方式"),
+			prop: "acquisitionMethod",
+			component: {
+				name: "el-radio-group",
+				options: options.acquisitionMethod,
+			},
+			value: 0,
+			span: 12,
 		},
 		{
 			label: t("权利范围"),
 			prop: "scopeOfRight",
 			component: {
-				name: "el-input",
-				props: { type: "textarea", rows: 4 },
+				name: "el-radio-group",
+				options: options.scopeOfRight,
 			},
+			value: 0,
+			span: 12,
+		},
+		// 人员信息
+		{
+			label: t("权利人"),
+			prop: "rightHolder",
+			component: { name: "el-input", props: { clearable: true } },
+			span: 12,
 		},
 		{
 			label: t("申请人"),
 			prop: "applicant",
 			component: { name: "el-input", props: { clearable: true } },
 			span: 12,
-			required: true,
-		},
-		{
-			label: t("法律状态"),
-			prop: "legalStatus",
-			component: { name: "el-radio-group", options: options.legalStatus },
-			value: 0,
-			required: true,
 		},
 	],
 });
@@ -233,13 +266,18 @@ const Table = useTable({
 				props: { format: "YYYY-MM-DD" },
 			},
 		},
-		{ label: t("取得方式"), prop: "acquisitionMethod", minWidth: 120 },
+		{
+			label: t("取得方式"),
+			prop: "acquisitionMethod",
+			minWidth: 120,
+			dict: options.acquisitionMethod,
+		},
 		{ label: t("权利人"), prop: "rightHolder", minWidth: 140 },
 		{
 			label: t("权利范围"),
 			prop: "scopeOfRight",
-			showOverflowTooltip: true,
-			minWidth: 200,
+			minWidth: 120,
+			dict: options.scopeOfRight,
 		},
 		{ label: t("申请人"), prop: "applicant", minWidth: 140 },
 		{
