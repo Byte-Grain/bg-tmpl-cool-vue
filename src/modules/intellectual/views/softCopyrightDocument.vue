@@ -30,36 +30,144 @@
 
 <script lang="ts" setup>
 defineOptions({
-	name: "intellectual-softCopyrightDocument",
+	name: "intellectual-soft-copyright-document",
 });
 
 import { useCrud, useTable, useUpsert, useSearch } from "@cool-vue/crud";
 import { useCool } from "/@/cool";
 import { useI18n } from "vue-i18n";
+import { reactive } from "vue";
 
 const { service } = useCool();
 const { t } = useI18n();
 
+// 选项配置
+const options = reactive({
+	legalStatus: [
+		{ label: t("未进行"), value: 0 },
+		{ label: t("待提交"), value: 1 },
+		{ label: t("待受理"), value: 2 },
+		{ label: t("受理"), value: 3 },
+		{ label: t("审查"), value: 4 },
+		{ label: t("登记"), value: 5 },
+		{ label: t("转让"), value: 6 },
+		{ label: t("许可使用"), value: 7 },
+	],
+	documentType: [
+		{ label: t("电子发文"), value: 0 },
+		{ label: t("纸质发文"), value: 1 },
+	],
+	documentName: [
+		{ label: t("版权登记表"), value: 0 },
+		{ label: t("版权证书"), value: 1 },
+		{ label: t("补正通知"), value: 2 },
+	],
+});
+
 // cl-upsert
 const Upsert = useUpsert({
 	items: [
+		// 监听流水号变化，自动填充相关信息
+		{
+			label: "",
+			prop: "_serialNumberWatcher",
+			hook: {
+				bind(value: any, { scope }: any) {
+					// 监听流水号字段变化
+					scope.$watch(
+						() => scope.form.serialNumber,
+						async (newVal: string) => {
+							if (newVal) {
+								try {
+									const res = await service.intellectual.softCopyright.page({
+										page: 1,
+										size: 1,
+										serialNumber: newVal
+									});
+									if (res.list && res.list.length > 0) {
+										const item = res.list[0];
+										scope.form.softCopyrightName = item.name;
+										scope.form.legalStatus = item.legalStatus;
+									}
+								} catch (error) {
+									console.error('获取软著信息失败:', error);
+								}
+							}
+						}
+					);
+				}
+			},
+			hidden: true
+		},
 		{
 			label: t("流水号"),
 			prop: "serialNumber",
-			component: { name: "el-input", props: { clearable: true } },
+			component: {
+				name: "cl-select",
+				props: {
+					clearable: true,
+					filterable: true,
+					remote: true,
+					reserveKeyword: false,
+					remoteMethod: async (keyword: string) => {
+						if (!keyword) return [];
+						try {
+							const res = await service.intellectual.softCopyright.page({
+								page: 1,
+								size: 10,
+								keyword,
+							});
+							return res.list.map((item: any) => ({
+								label: `${item.serialNumber} - ${item.name} (${options.legalStatus.find(s => s.value === item.legalStatus)?.label || ''})`,
+								value: item.serialNumber,
+								data: item,
+							}));
+						} catch (error) {
+							console.error('搜索软著失败:', error);
+							return [];
+						}
+					},
+					placeholder: t("请输入流水号或软著名称搜索")
+				}
+			},
 			span: 12,
 			required: true,
 		},
 		{
+			label: t("软著名称"),
+			prop: "softCopyrightName",
+			component: { name: "el-input", props: { clearable: true, disabled: true } },
+			span: 12,
+		},
+		{
+			label: t("法律状态"),
+			prop: "legalStatus",
+			component: {
+				name: "el-select",
+				options: options.legalStatus,
+				props: { clearable: true, disabled: true }
+			},
+			span: 12,
+		},
+		{
 			label: t("类型"),
 			prop: "type",
-			component: { name: "el-input", props: { clearable: true } },
+			component: {
+				name: "el-select",
+				options: options.documentType,
+				props: { clearable: true }
+			},
 			span: 12,
+			required: true,
 		},
 		{
 			label: t("名称"),
 			prop: "name",
-			component: { name: "el-input", props: { clearable: true } },
+			component: {
+				name: "el-select",
+				options: options.documentName,
+				props: { clearable: true }
+			},
 			span: 12,
 			required: true,
 		},
@@ -88,8 +196,25 @@ const Table = useTable({
 	columns: [
 		{ type: "selection" },
 		{ label: t("流水号"), prop: "serialNumber", minWidth: 140 },
-		{ label: t("类型"), prop: "type", minWidth: 120 },
-		{ label: t("名称"), prop: "name", minWidth: 140 },
+		{ label: t("软著名称"), prop: "softCopyrightName", minWidth: 180 },
+		{
+			label: t("法律状态"),
+			prop: "legalStatus",
+			minWidth: 120,
+			dict: options.legalStatus,
+		},
+		{
+			label: t("类型"),
+			prop: "type",
+			minWidth: 120,
+			dict: options.documentType,
+		},
+		{
+			label: t("名称"),
+			prop: "name",
+			minWidth: 140,
+			dict: options.documentName,
+		},
 		{
 			label: t("日期"),
 			prop: "date",

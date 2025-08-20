@@ -73,7 +73,14 @@
   "审查": "Under Review",
   "登记": "Registered",
   "转让": "Transferred",
-  "许可使用": "Licensed",
+  "许可使用": "Licensed Use",
   "未进行": "Not Started",
-  "待提交": "Pending Submission"
+  "待提交": "Pending Submission",
+  "请输入流水号或软著名称搜索": "Please enter serial number or software name to search",
+  "软著名称": "Software Copyright Name",
+  "电子发文": "Electronic Document",
+  "纸质发文": "Paper Document",
+  "版权登记表": "Copyright Registration Form",
+  "版权证书": "Copyright Certificate",
+  "补正通知": "Correction Notice"
 }
