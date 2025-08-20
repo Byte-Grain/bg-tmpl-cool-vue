@@ -30,36 +30,35 @@
 
 <script lang="ts" setup>
 defineOptions({
-	name: "intellectual-patent-document",
+	name: 'intellectual-patent-document'
 });
 
-import { useCrud, useTable, useUpsert, useSearch } from "@cool-vue/crud";
-import { useCool } from "/@/cool";
-import { useI18n } from "vue-i18n";
-import { reactive, ref, onMounted, computed } from "vue";
-import { useDict } from "/@/modules/dict";
+import { useCrud, useTable, useUpsert, useSearch } from '@cool-vue/crud';
+import { useCool } from '/@/cool';
+import { useI18n } from 'vue-i18n';
+import { reactive, ref, onMounted, computed } from 'vue';
+import { useDict } from '/@/modules/dict';
 
 const { service } = useCool();
 const { t } = useI18n();
 const { dict } = useDict();
 
 // 专利搜索选项
-const patentOptions = ref<Array<{ label: string, value: string, data: any }>>([]);
+const patentOptions = ref<Array<{ label: string; value: string; data: any }>>([]);
 
 // 响应式字典数据
 const documentTypeOptions = computed(() => dict.get('intellectual_document_type').value || []);
-const documentNameOptions = computed(() => dict.get('intellectual_patent_document_name').value || []);
+const documentNameOptions = computed(
+	() => dict.get('intellectual_patent_document_name').value || []
+);
 
 // 获取字典数据
 const getDictData = async () => {
-	const dictTypes = [
-		'intellectual_document_type',
-		'intellectual_patent_document_name'
-	];
-	
+	const dictTypes = ['intellectual_document_type', 'intellectual_patent_document_name'];
+
 	// 使用字典store刷新数据
 	await dict.refresh(dictTypes);
-	
+
 	console.log('专利收文字典数据加载:', {
 		documentType: documentTypeOptions.value,
 		documentName: documentNameOptions.value
@@ -75,10 +74,10 @@ onMounted(async () => {
 const Upsert = useUpsert({
 	items: [
 		{
-			label: t("专利号"),
-			prop: "patentNumber",
+			label: t('专利号'),
+			prop: 'patentNumber',
 			component: {
-				name: "el-select",
+				name: 'el-select',
 				props: {
 					clearable: true,
 					filterable: true,
@@ -93,13 +92,13 @@ const Upsert = useUpsert({
 							const res = await service.intellectual.patent.page({
 								page: 1,
 								size: 10,
-								keyWord: keyword,
+								keyWord: keyword
 							});
 							const mappedList = res.list.map((item: any) => {
 								return {
 									label: `${item.patentNumber} - ${item.name}`,
 									value: item.patentNumber,
-									data: item,
+									data: item
 								};
 							});
 							patentOptions.value = mappedList;
@@ -108,111 +107,111 @@ const Upsert = useUpsert({
 							patentOptions.value = [];
 						}
 					},
-					placeholder: t("请输入专利号或专利名称搜索")
+					placeholder: t('请输入专利号或专利名称搜索')
 				},
 				options: patentOptions
 			},
 			span: 12,
-			required: true,
+			required: true
 		},
 		{
-			label: t("类型"),
-			prop: "type",
+			label: t('类型'),
+			prop: 'type',
 			component: {
-				name: "el-select",
+				name: 'el-select',
 				options: documentTypeOptions,
 				props: { clearable: true }
 			},
 			span: 12,
-			required: true,
+			required: true
 		},
 		{
-			label: t("名称"),
-			prop: "name",
+			label: t('名称'),
+			prop: 'name',
 			component: {
-				name: "el-select",
+				name: 'el-select',
 				options: documentNameOptions,
 				props: { clearable: true }
 			},
 			span: 12,
-			required: true,
+			required: true
 		},
 		{
-			label: t("日期"),
-			prop: "date",
+			label: t('日期'),
+			prop: 'date',
 			component: {
-				name: "el-date-picker",
-				props: { type: "date", valueFormat: "YYYY-MM-DD" },
+				name: 'el-date-picker',
+				props: { type: 'date', valueFormat: 'YYYY-MM-DD' }
 			},
-			span: 12,
+			span: 12
 		},
 		{
-			label: t("附件"),
-			prop: "attachment",
+			label: t('附件'),
+			prop: 'attachment',
 			component: {
-				name: "cl-upload",
+				name: 'cl-upload',
 				props: {
-					type: "file",
+					type: 'file',
 					multiple: false,
 					limit: 1,
-					listType: "picture-card",
-					accept: ".jpg,.jpeg,.png,.pdf,.doc,.docx"
-				},
-			},
-		},
-	],
+					listType: 'picture-card',
+					accept: '.jpg,.jpeg,.png,.pdf,.doc,.docx'
+				}
+			}
+		}
+	]
 });
 
 // cl-table
 const Table = useTable({
 	columns: [
-		{ type: "selection" },
-		{ label: t("专利号"), prop: "patentNumber", minWidth: 140 },
-		{ label: t("专利名称"), prop: "patentName", minWidth: 180 },
+		{ type: 'selection' },
+		{ label: t('专利号'), prop: 'patentNumber', minWidth: 140 },
+		{ label: t('专利名称'), prop: 'patentName', minWidth: 180 },
 		{
-			label: t("类型"),
-			prop: "type",
+			label: t('类型'),
+			prop: 'type',
 			minWidth: 120,
-			dict: documentTypeOptions,
+			dict: documentTypeOptions
 		},
 		{
-			label: t("名称"),
-			prop: "name",
+			label: t('名称'),
+			prop: 'name',
 			minWidth: 140,
-			dict: documentNameOptions,
+			dict: documentNameOptions
 		},
 		{
-			label: t("日期"),
-			prop: "date",
+			label: t('日期'),
+			prop: 'date',
 			minWidth: 140,
-			sortable: "custom",
+			sortable: 'custom',
 			component: {
-				name: "cl-date-text",
-				props: { format: "YYYY-MM-DD" },
-			},
+				name: 'cl-date-text',
+				props: { format: 'YYYY-MM-DD' }
+			}
 		},
 		{
-			label: t("附件"),
-			prop: "attachment",
+			label: t('附件'),
+			prop: 'attachment',
 			minWidth: 120,
-			component: { name: "cl-link" },
+			component: { name: 'cl-link' }
 		},
 		{
-			label: t("创建时间"),
-			prop: "createTime",
+			label: t('创建时间'),
+			prop: 'createTime',
 			minWidth: 170,
-			sortable: "desc",
-			component: { name: "cl-date-text" },
+			sortable: 'desc',
+			component: { name: 'cl-date-text' }
 		},
 		{
-			label: t("更新时间"),
-			prop: "updateTime",
+			label: t('更新时间'),
+			prop: 'updateTime',
 			minWidth: 170,
-			sortable: "custom",
-			component: { name: "cl-date-text" },
+			sortable: 'custom',
+			component: { name: 'cl-date-text' }
 		},
-		{ type: "op", buttons: ["edit", "delete"] },
-	],
+		{ type: 'op', buttons: ['edit', 'delete'] }
+	]
 });
 
 // cl-search
@@ -221,11 +220,11 @@ const Search = useSearch();
 // cl-crud
 const Crud = useCrud(
 	{
-		service: service.intellectual.patentDocument,
+		service: service.intellectual.patentDocument
 	},
-	(app) => {
+	app => {
 		app.refresh();
-	},
+	}
 );
 
 // 刷新
