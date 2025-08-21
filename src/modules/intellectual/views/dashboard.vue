@@ -377,12 +377,12 @@
 
 			const softs = res.list || [];
 
-			// 从字典获取软著类型映射
-			const softTypeDict = dict.get('intellectual_soft_type')?.value || [];
+			// 从字典获取软著分类映射
+			const softCategoryDict = dict.get('intellectual_software_category')?.value || [];
 			const typeMap: { [key: number]: string } = {};
 
 			// 构建类型映射
-			softTypeDict.forEach((item: any) => {
+			softCategoryDict.forEach((item: any) => {
 				typeMap[parseInt(item.value)] = item.label;
 			});
 
@@ -396,9 +396,9 @@
 
 			// 统计数据
 			softs.forEach((soft: any) => {
-				// 只统计在字典中存在的软著类型
-				if (soft.softType !== undefined && typeMap[soft.softType]) {
-					const typeName = typeMap[soft.softType];
+				// 只统计在字典中存在的软著分类
+				if (soft.category !== undefined && typeMap[soft.category]) {
+					const typeName = typeMap[soft.category];
 
 					if (soft.legalStatus === 1) {
 						// 已登记
@@ -483,8 +483,18 @@
 		}
 	};
 
+	// 初始化字典数据
+	const initDictData = async () => {
+		const dictTypes = [
+			'intellectual_patent_type',
+			'intellectual_software_category'
+		];
+		await dict.refresh(dictTypes);
+	};
+
 	// 初始化数据
 	const initData = async () => {
+		await initDictData();
 		await Promise.all([
 			getPatentStatistics(),
 			getSoftStatistics(),

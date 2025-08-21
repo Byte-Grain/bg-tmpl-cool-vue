@@ -48,7 +48,7 @@
 	const developmentMethodOptions = computed(() => dict.get('intellectual_development_method').value || []);
 	const acquisitionMethodOptions = computed(() => dict.get('intellectual_acquisition_method').value || []);
 	const scopeOfRightOptions = computed(() => dict.get('intellectual_scope_of_right').value || []);
-	const legalStatusOptions = computed(() => dict.get('intellectual_software_legal_status').value || []);
+	const legalStatusOptions = computed(() => dict.get('intellectual_unified_legal_status').value || []);
 
 	// 加载机构数据
 	async function loadOrganizations() {
@@ -80,7 +80,7 @@
 			'intellectual_development_method',
 			'intellectual_acquisition_method',
 			'intellectual_scope_of_right',
-			'intellectual_software_legal_status'
+			'intellectual_unified_legal_status'
 		];
 
 		// 使用字典store刷新数据

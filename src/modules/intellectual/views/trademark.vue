@@ -134,7 +134,7 @@
 				prop: 'legalStatus',
 				component: {
 					name: 'el-select',
-					options: dict.get('intellectual_trademark_status'),
+					options: dict.get('intellectual_unified_legal_status'),
 					props: { clearable: true, placeholder: '请选择法律状态' }
 				},
 				span: 12,
@@ -297,7 +297,7 @@
 				label: t('法律状态'),
 				prop: 'legalStatus',
 				minWidth: 120,
-				dict: dict.get('intellectual_trademark_status')
+				dict: dict.get('intellectual_unified_legal_status')
 			},
 			{
 				label: t('创建时间'),
