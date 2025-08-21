@@ -48,7 +48,9 @@ const softCopyrightOptions = ref<Array<{ label: string; value: string; data: any
 
 // 响应式字典数据
 const documentTypeOptions = computed(() => dict.get('intellectual_document_type').value || []);
-const documentNameOptions = computed(() => dict.get('intellectual_soft_copyright_document_name').value || []);
+const documentNameOptions = computed(
+	() => dict.get('intellectual_soft_copyright_document_name').value || []
+);
 
 // 获取字典数据
 const getDictData = async () => {

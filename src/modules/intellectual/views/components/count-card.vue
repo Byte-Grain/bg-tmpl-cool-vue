@@ -27,42 +27,41 @@
 </template>
 
 <script lang="ts" setup>
-	import { TopRight } from '@element-plus/icons-vue';
+import { TopRight } from '@element-plus/icons-vue';
 
-	interface Props {
-		/** 卡片标题 */
-		title: string;
-		/** 图标名称 */
-		icon: string;
-		/** 主要数值 */
-		value: number;
-		/** 趋势文本 */
-		trendText: string;
-		/** 底部标签 */
-		footerLabel: string;
-		/** 底部数值 */
-		footerValue: string | number;
-	}
+interface Props {
+	/** 卡片标题 */
+	title: string;
+	/** 图标名称 */
+	icon: string;
+	/** 主要数值 */
+	value: number;
+	/** 趋势文本 */
+	trendText: string;
+	/** 底部标签 */
+	footerLabel: string;
+	/** 底部数值 */
+	footerValue: string | number;
+}
 
-	defineProps<Props>();
+defineProps<Props>();
 </script>
 
 <style lang="scss" scoped>
-	.count-card {
-
-		.fall,
-		.rise {
-			display: inline-flex;
-			align-items: center;
-			margin-left: 10px;
-		}
-
-		.fall {
-			color: var(--el-color-danger);
-		}
-
-		.rise {
-			color: var(--el-color-success);
-		}
+.count-card {
+	.fall,
+	.rise {
+		display: inline-flex;
+		align-items: center;
+		margin-left: 10px;
 	}
+
+	.fall {
+		color: var(--el-color-danger);
+	}
+
+	.rise {
+		color: var(--el-color-success);
+	}
+}
 </style>

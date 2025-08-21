@@ -44,7 +44,9 @@ const { t } = useI18n();
 const { dict } = useDict();
 
 // 响应式字典数据
-const organizationTypeOptions = computed(() => dict.get('intellectual_organization_type').value || []);
+const organizationTypeOptions = computed(
+	() => dict.get('intellectual_organization_type').value || []
+);
 
 // 获取字典数据
 const getDictData = async () => {

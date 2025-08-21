@@ -3137,13 +3137,10 @@ declare namespace Eps {
 	type Request = (options: RequestOptions) => Promise<any>;
 
 	type DictKey =
-		| "brand"
-		| "occupation"
 		| "intellectual_patent_type"
 		| "intellectual_patent_level"
 		| "intellectual_organization_type"
 		| "intellectual_trademark_type"
-		| "intellectual_trademark_status"
 		| "intellectual_copyright_type"
 		| "intellectual_software_category"
 		| "intellectual_development_method"
@@ -3155,7 +3152,7 @@ declare namespace Eps {
 		| "intellectual_trademark_source"
 		| "intellectual_trademark_classification"
 		| "intellectual_trademark_document_name"
-		| "intellectual_unified_legal_status";
+		| "intellectual_legal_status";
 
 	type Service = {
 		request: Request;
