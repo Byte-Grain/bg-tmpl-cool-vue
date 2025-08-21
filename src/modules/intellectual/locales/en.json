@@ -111,5 +111,22 @@
 	"核定使用商品/服务项目": "Approved Goods/Services",
 	"专利名称": "Patent Name",
 	"请输入专利号或专利名称搜索": "Please enter patent number or patent name to search",
-	"请输入注册号或商标名称搜索": "Please enter registration number or trademark name to search"
+	"请输入注册号或商标名称搜索": "Please enter registration number or trademark name to search",
+	"已获得专利数量": "Granted Patents Count",
+	"申请中的专利数量": "Pending Patents Count",
+	"今年授权的专利数量": "Patents Granted This Year",
+	"已获得软著数量": "Granted Software Copyrights Count",
+	"年度计划申请软著数量": "Annual Planned Software Copyright Applications",
+	"年度授权软著数量": "Annual Granted Software Copyrights",
+	"本月新增": "New This Month",
+	"本月新申请": "New Applications This Month",
+	"较去年同期": "Compared to Last Year",
+	"完成进度": "Completion Progress",
+	"已完成": "Completed",
+	"{year}年专利统计": "{year} Patent Statistics",
+	"{year}年软著统计": "{year} Software Copyright Statistics",
+	"已授权专利": "Granted Patents",
+	"申请中专利": "Pending Patents",
+	"已授权软著": "Granted Software Copyrights",
+	"申请中软著": "Pending Software Copyrights"
 }
