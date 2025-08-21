@@ -45,6 +45,17 @@ export function useUpload() {
 						// key
 						fd.append('key', key);
 
+						// 将opts中的所有额外参数添加到FormData中
+						Object.keys(opts).forEach(key => {
+							if (
+								key !== 'prefixPath' &&
+								key !== 'onProgress' &&
+								opts[key] !== undefined
+							) {
+								fd.append(key, opts[key]);
+							}
+						});
+
 						// 签名数据
 						for (const i in data) {
 							if (!fd.has(i)) {

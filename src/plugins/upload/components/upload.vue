@@ -210,7 +210,12 @@ const props = defineProps({
 	// 上传前钩子
 	beforeUpload: Function,
 	// 云端上传路径前缀
-	prefixPath: String
+	prefixPath: String,
+	// 扩展属性（用于传递额外参数到上传接口）
+	extraProps: {
+		type: Object as PropType<Record<string, any>>,
+		default: () => ({})
+	}
 });
 
 const emit = defineEmits(['update:modelValue', 'change', 'upload', 'success', 'error', 'progress']);
@@ -382,6 +387,7 @@ async function httpRequest(req: any, item?: Upload.Item) {
 	// 上传请求
 	toUpload(req.file, {
 		prefixPath: props.prefixPath,
+		...props.extraProps,
 		onProgress(progress) {
 			item!.progress = progress;
 			emit('progress', item);
