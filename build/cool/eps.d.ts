@@ -675,7 +675,7 @@ declare namespace Eps {
 		/**
 		 * 类型
 		 */
-		type?: string;
+		type?: number;
 
 		/**
 		 * 名称
@@ -978,7 +978,7 @@ declare namespace Eps {
 		/**
 		 * 类型
 		 */
-		type?: string;
+		type?: number;
 
 		/**
 		 * 名称
@@ -3140,22 +3140,17 @@ declare namespace Eps {
 		| "brand"
 		| "occupation"
 		| "intellectual_patent_type"
-		| "intellectual_legal_status"
 		| "intellectual_patent_level"
 		| "intellectual_organization_type"
 		| "intellectual_trademark_type"
 		| "intellectual_trademark_status"
 		| "intellectual_copyright_type"
-		| "intellectual_copyright_status"
 		| "intellectual_software_category"
 		| "intellectual_development_method"
 		| "intellectual_acquisition_method"
 		| "intellectual_scope_of_right"
-		| "intellectual_software_legal_status"
 		| "intellectual_document_type"
 		| "intellectual_soft_copyright_document_name"
-		| "intellectual_patent_document_type"
-		| "intellectual_trademark_document_type"
 		| "intellectual_patent_document_name"
 		| "intellectual_trademark_source"
 		| "intellectual_trademark_classification"

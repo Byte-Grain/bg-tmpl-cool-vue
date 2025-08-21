@@ -47,18 +47,18 @@ const { dict } = useDict();
 const trademarkOptions = ref<Array<{ label: string; value: string; data: any }>>([]);
 
 // 响应式字典数据
-const documentTypeOptions = computed(() => dict.get('intellectual_trademark_document_type')?.value || []);
+const documentTypeOptions = computed(() => dict.get('intellectual_document_type')?.value || []);
 const documentNameOptions = computed(() => dict.get('intellectual_trademark_document_name')?.value || []);
 
 // 获取字典数据
 const getDictData = async () => {
-	const dictTypes = ['intellectual_trademark_document_type', 'intellectual_trademark_document_name'];
+	const dictTypes = ['intellectual_document_type', 'intellectual_trademark_document_name'];
 
 	// 使用字典store刷新数据
 	await dict.refresh(dictTypes);
 
 	console.log('商标收文字典数据加载:', {
-		documentType: dict.get('intellectual_trademark_document_type'),
+		documentType: dict.get('intellectual_document_type'),
 		documentName: dict.get('intellectual_trademark_document_name')
 	});
 };
