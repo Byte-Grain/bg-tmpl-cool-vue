@@ -36,17 +36,15 @@ defineOptions({
 import { useCrud, useTable, useUpsert, useSearch } from '@cool-vue/crud';
 import { useCool } from '/@/cool';
 import { useI18n } from 'vue-i18n';
-import { reactive, onMounted } from 'vue';
+import { reactive, onMounted, computed } from 'vue';
 import { useDict } from '/@/modules/dict';
 
 const { service } = useCool();
 const { t } = useI18n();
 const { dict } = useDict();
 
-// 选项
-const options = reactive({
-	type: []
-});
+// 响应式字典数据
+const organizationTypeOptions = computed(() => dict.get('intellectual_organization_type').value || []);
 
 // 获取字典数据
 const getDictData = async () => {
@@ -55,15 +53,14 @@ const getDictData = async () => {
 	// 使用字典store刷新数据
 	await dict.refresh(dictTypes);
 
-	// 从字典store获取数据
-	Object.assign(options, {
-		type: dict.get('intellectual_organization_type') || []
+	console.log('机构字典数据加载:', {
+		type: organizationTypeOptions.value
 	});
 };
 
 // 初始化字典数据
-onMounted(() => {
-	getDictData();
+onMounted(async () => {
+	await getDictData();
 });
 
 // cl-upsert
@@ -87,7 +84,7 @@ const Upsert = useUpsert({
 			prop: 'type',
 			component: {
 				name: 'el-radio-group',
-				options: dict.get('intellectual_organization_type')
+				options: organizationTypeOptions
 			},
 			value: 0,
 			span: 24,
@@ -136,7 +133,7 @@ const Table = useTable({
 		{ type: 'selection' },
 		{ label: t('编号'), prop: 'code', minWidth: 120 },
 		{ label: t('名称'), prop: 'name', minWidth: 140 },
-		{ label: t('类型'), prop: 'type', minWidth: 120, dict: dict.get('intellectual_organization_type') },
+		{ label: t('类型'), prop: 'type', minWidth: 120, dict: organizationTypeOptions },
 		{ label: t('联系人'), prop: 'contactPerson', minWidth: 140 },
 		{ label: t('电话'), prop: 'phone', minWidth: 140 },
 		{

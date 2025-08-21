@@ -40,12 +40,27 @@
 						:colors="['#67C23A', '#409EFF']" />
 				</el-col>
 				<el-col :lg="12" :xs="24">
-				<common-trend-chart 
-					title="专利年度趋势" 
-					:data="patentTrendData" 
-					:series-config="patentTrendSeriesConfig"
-				/>
-			</el-col>
+					<common-trend-chart 
+						title="专利年度趋势" 
+						:data="patentTrendData" 
+						:series-config="patentTrendSeriesConfig"
+					/>
+				</el-col>
+			</el-row>
+
+			<!-- 软著统计图表 -->
+			<el-row :gutter="10">
+				<el-col :lg="12" :xs="24">
+					<common-type-chart title="软著类型分布" :data="softTypeData" :legend-data="['已登记', '申请中']"
+						:colors="['#E6A23C', '#F56C6C']" />
+				</el-col>
+				<el-col :lg="12" :xs="24">
+					<common-trend-chart 
+						title="软著年度趋势" 
+						:data="softTrendData" 
+						:series-config="softTrendSeriesConfig"
+					/>
+				</el-col>
 			</el-row>
 		</div>
 	</el-scrollbar>
@@ -81,6 +96,16 @@
 	const patentTrendSeriesConfig = reactive([
 		{ name: '已授权专利', color: '#67C23A' },
 		{ name: '申请的专利', color: '#409EFF' }
+	]);
+
+	// 软著类型分布图数据
+	const softTypeData = reactive<ChartDataItem[]>([]);
+
+	// 软著年度趋势图数据
+	const softTrendData = reactive<TrendDataItem[]>([]);
+	const softTrendSeriesConfig = reactive([
+		{ name: '已登记软著', color: '#E6A23C' },
+		{ name: '申请中软著', color: '#F56C6C' }
 	]);
 
 	// 专利相关数据
@@ -349,13 +374,132 @@
 		}
 	};
 
+	// 获取软著类型分布数据
+	const getSoftTypeData = async () => {
+		try {
+			// 获取所有软著数据
+			const res = await service.intellectual.softCopyright.page({
+				page: 1,
+				size: 10000
+			});
+
+			const softs = res.list || [];
+
+			// 从字典获取软著类型映射
+			const softTypeDict = dict.get('intellectual_soft_type')?.value || [];
+			const typeMap: { [key: number]: string } = {};
+
+			// 构建类型映射
+			softTypeDict.forEach((item: any) => {
+				typeMap[parseInt(item.value)] = item.label;
+			});
+
+			// 统计各类型的已登记和申请中软著数量
+			const typeStats: { [key: string]: { registered: number; applying: number } } = {};
+
+			// 初始化统计对象
+			Object.values(typeMap).forEach(typeName => {
+				typeStats[typeName] = { registered: 0, applying: 0 };
+			});
+
+			// 统计数据
+			softs.forEach((soft: any) => {
+				// 只统计在字典中存在的软著类型
+				if (soft.softType !== undefined && typeMap[soft.softType]) {
+					const typeName = typeMap[soft.softType];
+
+					if (soft.legalStatus === 1) {
+						// 已登记
+						typeStats[typeName].registered++;
+					} else if (soft.legalStatus === 0) {
+						// 申请中
+						typeStats[typeName].applying++;
+					}
+				}
+			});
+
+			// 转换为图表数据格式
+			softTypeData.length = 0;
+			Object.keys(typeStats).forEach(typeName => {
+				softTypeData.push({
+					category: typeName,
+					values: [typeStats[typeName].registered, typeStats[typeName].applying]
+				});
+			});
+
+		} catch (error) {
+			console.error('获取软著类型分布数据失败:', error);
+		}
+	};
+
+	// 获取软著年度趋势数据
+	const getSoftTrendData = async () => {
+		try {
+			// 获取所有软著数据
+			const res = await service.intellectual.softCopyright.page({
+				page: 1,
+				size: 10000
+			});
+			
+			const softs = res.list || [];
+			const currentYear = new Date().getFullYear();
+			
+			// 生成近5年的年份数组
+			const years: number[] = [];
+			for (let i = 4; i >= 0; i--) {
+				years.push(currentYear - i);
+			}
+			
+			// 统计各年份的软著数量
+			const yearStats: { [key: number]: { registered: number; applying: number } } = {};
+			
+			// 初始化统计对象
+			years.forEach(year => {
+				yearStats[year] = { registered: 0, applying: 0 };
+			});
+			
+			// 统计数据
+			softs.forEach((soft: any) => {
+				// 已登记软著按登记日期年份统计
+				if (soft.legalStatus === 1 && soft.registrationDate) {
+					const year = new Date(soft.registrationDate).getFullYear();
+					if (yearStats[year]) {
+						yearStats[year].registered++;
+					}
+				}
+				
+				// 申请中软著按申请日期年份统计
+				if (soft.applicationDate) {
+					const year = new Date(soft.applicationDate).getFullYear();
+					if (yearStats[year]) {
+						yearStats[year].applying++;
+					}
+				}
+			});
+			
+			// 转换为图表数据格式
+			softTrendData.length = 0;
+			years.forEach(year => {
+				softTrendData.push({
+					year: year.toString(),
+					values: [yearStats[year].registered, yearStats[year].applying]
+				});
+			});
+			
+		} catch (error) {
+			console.error('获取软著年度趋势数据失败:', error);
+		}
+	};
+
 	// 初始化数据
 	const initData = async () => {
 		await Promise.all([
 			getPatentStatistics(),
 			getSoftStatistics(),
 			getPatentTypeData(),
-			getPatentTrendData()
+			getPatentTrendData(),
+			getSoftTypeData(),
+			getSoftTrendData()
 		]);
 	};
 

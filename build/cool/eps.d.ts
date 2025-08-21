@@ -770,9 +770,14 @@ declare namespace Eps {
 		applicationDate?: Date;
 
 		/**
+		 * 证书日
+		 */
+		certificateDate?: Date;
+
+		/**
 		 * 取得方式
 		 */
-		acquisitionMethod?: string;
+		acquisitionMethod?: number;
 
 		/**
 		 * 权利人
@@ -782,7 +787,7 @@ declare namespace Eps {
 		/**
 		 * 权利范围
 		 */
-		scopeOfRight?: string;
+		scopeOfRight?: number;
 
 		/**
 		 * 申请人

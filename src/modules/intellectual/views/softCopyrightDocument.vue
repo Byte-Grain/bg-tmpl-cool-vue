@@ -36,7 +36,7 @@ defineOptions({
 import { useCrud, useTable, useUpsert, useSearch } from '@cool-vue/crud';
 import { useCool } from '/@/cool';
 import { useI18n } from 'vue-i18n';
-import { reactive, ref, onMounted } from 'vue';
+import { reactive, ref, onMounted, computed } from 'vue';
 import { useDict } from '/@/modules/dict';
 
 const { service } = useCool();
@@ -46,11 +46,9 @@ const { dict } = useDict();
 // 软著搜索选项
 const softCopyrightOptions = ref<Array<{ label: string; value: string; data: any }>>([]);
 
-// 选项配置
-const options = reactive({
-	documentType: [],
-	documentName: []
-});
+// 响应式字典数据
+const documentTypeOptions = computed(() => dict.get('intellectual_document_type').value || []);
+const documentNameOptions = computed(() => dict.get('intellectual_soft_copyright_document_name').value || []);
 
 // 获取字典数据
 const getDictData = async () => {
@@ -59,16 +57,15 @@ const getDictData = async () => {
 	// 使用字典store刷新数据
 	await dict.refresh(dictTypes);
 
-	// 从字典store获取数据
-	Object.assign(options, {
-		documentType: dict.get('intellectual_document_type').value || [],
-		documentName: dict.get('intellectual_soft_copyright_document_name').value || []
+	console.log('软著收文字典数据加载:', {
+		documentType: documentTypeOptions.value,
+		documentName: documentNameOptions.value
 	});
 };
 
 // 初始化字典数据
-onMounted(() => {
-	getDictData();
+onMounted(async () => {
+	await getDictData();
 });
 
 // cl-upsert
@@ -120,7 +117,7 @@ const Upsert = useUpsert({
 			prop: 'type',
 			component: {
 				name: 'el-select',
-				options: options.documentType,
+				options: documentTypeOptions,
 				props: { clearable: true }
 			},
 			span: 12,
@@ -131,7 +128,7 @@ const Upsert = useUpsert({
 			prop: 'name',
 			component: {
 				name: 'el-select',
-				options: options.documentName,
+				options: documentNameOptions,
 				props: { clearable: true }
 			},
 			span: 12,
@@ -174,13 +171,13 @@ const Table = useTable({
 			label: t('类型'),
 			prop: 'type',
 			minWidth: 120,
-			dict: options.documentType
+			dict: documentTypeOptions
 		},
 		{
 			label: t('名称'),
 			prop: 'name',
 			minWidth: 140,
-			dict: options.documentName
+			dict: documentNameOptions
 		},
 		{
 			label: t('日期'),
