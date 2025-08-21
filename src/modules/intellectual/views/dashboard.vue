@@ -1,69 +1,61 @@
 <template>
-	<el-scrollbar>
-		<div class="intellectual-dashboard">
-			<!-- 专利统计指标 -->
-			<el-row :gutter="10">
-				<el-col :lg="8" :md="12" :xs="24">
-					<count-card title="已获得专利数量" icon="document" :value="patentGranted.value" trend-text="+8%"
-						footer-label="年度新增" :footer-value="patentGranted.yearlyIncrease" />
-				</el-col>
-				<el-col :lg="8" :md="12" :xs="24">
-					<count-card title="申请中的专利数量" icon="clock" :value="patentApplying.value" trend-text="+15%"
-						footer-label="年度新增" :footer-value="patentApplying.yearlyIncrease" />
-				</el-col>
-				<el-col :lg="8" :md="12" :xs="24">
-					<count-card title="今年授权的专利数量" icon="trophy" :value="patentYearly.value" trend-text="+22%"
-						footer-label="较去年同期" :footer-value="`+${patentYearly.yearlyProgress}`" />
-				</el-col>
-			</el-row>
+	<!-- <el-scrollbar> -->
+	<div class="intellectual-dashboard">
+		<!-- 专利统计指标 -->
+		<el-row :gutter="10">
+			<el-col :lg="8" :md="12" :xs="24">
+				<count-card title="已获得专利数量" icon="document" :value="patentGranted.value" trend-text="+8%"
+					footer-label="年度新增" :footer-value="patentGranted.yearlyIncrease" />
+			</el-col>
+			<el-col :lg="8" :md="12" :xs="24">
+				<count-card title="申请中的专利数量" icon="clock" :value="patentApplying.value" trend-text="+15%"
+					footer-label="年度新增" :footer-value="patentApplying.yearlyIncrease" />
+			</el-col>
+			<el-col :lg="8" :md="12" :xs="24">
+				<count-card title="今年授权的专利数量" icon="trophy" :value="patentYearly.value" trend-text="+22%"
+					footer-label="较去年同期" :footer-value="`+${patentYearly.yearlyProgress}`" />
+			</el-col>
+		</el-row>
 
-			<!-- 软著统计指标 -->
-			<el-row :gutter="10">
-				<el-col :lg="8" :md="12" :xs="24">
-					<count-card title="已获得软著数量" icon="code" :value="softGranted.value" trend-text="+12%"
-						footer-label="年度新增" :footer-value="softGranted.yearlyIncrease" />
-				</el-col>
-				<el-col :lg="8" :md="12" :xs="24">
-					<count-card title="年度计划申请软著数量" icon="calendar" :value="softPlanned.value" trend-text="+15%"
-						footer-label="年度新增" :footer-value="softPlanned.yearlyIncrease" />
-				</el-col>
-				<el-col :lg="8" :md="12" :xs="24">
-					<count-card title="年度授权软著数量" icon="medal" :value="softYearly.value" trend-text="+18%"
-						footer-label="较去年同期" :footer-value="`+${softYearly.yearlyGrowth}`" />
-				</el-col>
-			</el-row>
+		<!-- 软著统计指标 -->
+		<el-row :gutter="10">
+			<el-col :lg="8" :md="12" :xs="24">
+				<count-card title="已获得软著数量" icon="code" :value="softGranted.value" trend-text="+12%" footer-label="年度新增"
+					:footer-value="softGranted.yearlyIncrease" />
+			</el-col>
+			<el-col :lg="8" :md="12" :xs="24">
+				<count-card title="年度计划申请软著数量" icon="calendar" :value="softPlanned.value" trend-text="+15%"
+					footer-label="年度新增" :footer-value="softPlanned.yearlyIncrease" />
+			</el-col>
+			<el-col :lg="8" :md="12" :xs="24">
+				<count-card title="年度授权软著数量" icon="medal" :value="softYearly.value" trend-text="+18%"
+					footer-label="较去年同期" :footer-value="`+${softYearly.yearlyGrowth}`" />
+			</el-col>
+		</el-row>
 
-			<!-- 专利统计图表 -->
-			<el-row :gutter="10">
-				<el-col :lg="12" :xs="24">
-					<common-type-chart title="专利类型分布" :data="patentTypeData" :legend-data="['已授权', '申请中']"
-						:colors="['#67C23A', '#409EFF']" />
-				</el-col>
-				<el-col :lg="12" :xs="24">
-					<common-trend-chart 
-						title="专利年度趋势" 
-						:data="patentTrendData" 
-						:series-config="patentTrendSeriesConfig"
-					/>
-				</el-col>
-			</el-row>
+		<!-- 专利统计图表 -->
+		<el-row :gutter="10">
+			<el-col :lg="12" :xs="24">
+				<common-type-chart title="专利类型分布" :data="patentTypeData" :legend-data="['已授权', '申请中']"
+					:colors="['#67C23A', '#409EFF']" />
+			</el-col>
+			<el-col :lg="12" :xs="24">
+				<common-trend-chart title="专利年度趋势" :data="patentTrendData" :series-config="patentTrendSeriesConfig" />
+			</el-col>
+		</el-row>
 
-			<!-- 软著统计图表 -->
-			<el-row :gutter="10">
-				<el-col :lg="12" :xs="24">
-					<common-type-chart title="软著类型分布" :data="softTypeData" :legend-data="['已登记', '申请中']"
-						:colors="['#E6A23C', '#F56C6C']" />
-				</el-col>
-				<el-col :lg="12" :xs="24">
-					<common-trend-chart 
-						title="软著年度趋势" 
-						:data="softTrendData" 
-						:series-config="softTrendSeriesConfig"
-					/>
-				</el-col>
-			</el-row>
-		</div>
-	</el-scrollbar>
+		<!-- 软著统计图表 -->
+		<el-row :gutter="10">
+			<el-col :lg="12" :xs="24">
+				<common-type-chart title="软著类型分布" :data="softTypeData" :legend-data="['已登记', '申请中']"
+					:colors="['#E6A23C', '#F56C6C']" />
+			</el-col>
+			<el-col :lg="12" :xs="24">
+				<common-trend-chart title="软著年度趋势" :data="softTrendData" :series-config="softTrendSeriesConfig" />
+			</el-col>
+		</el-row>
+	</div>
+	<!-- </el-scrollbar> -->
 </template>
 
 <script lang="ts" setup>
@@ -323,24 +315,24 @@
 				page: 1,
 				size: 10000
 			});
-			
+
 			const patents = res.list || [];
 			const currentYear = new Date().getFullYear();
-			
+
 			// 生成近5年的年份数组
 			const years: number[] = [];
 			for (let i = 4; i >= 0; i--) {
 				years.push(currentYear - i);
 			}
-			
+
 			// 统计各年份的专利数量（按申请日年份）
 			const yearStats: { [key: number]: { granted: number; applying: number } } = {};
-			
+
 			// 初始化统计对象
 			years.forEach(year => {
 				yearStats[year] = { granted: 0, applying: 0 };
 			});
-			
+
 			// 统计数据
 			patents.forEach((patent: any) => {
 				// 已授权专利按证书日期年份统计
@@ -350,7 +342,7 @@
 						yearStats[year].granted++;
 					}
 				}
-				
+
 				// 申请的专利按申请日期年份统计
 				if (patent.applicationDate) {
 					const year = new Date(patent.applicationDate).getFullYear();
@@ -359,7 +351,7 @@
 					}
 				}
 			});
-			
+
 			// 转换为图表数据格式
 			patentTrendData.length = 0;
 			years.forEach(year => {
@@ -368,7 +360,7 @@
 					values: [yearStats[year].granted, yearStats[year].applying]
 				});
 			});
-			
+
 		} catch (error) {
 			console.error('获取专利年度趋势数据失败:', error);
 		}
@@ -440,24 +432,24 @@
 				page: 1,
 				size: 10000
 			});
-			
+
 			const softs = res.list || [];
 			const currentYear = new Date().getFullYear();
-			
+
 			// 生成近5年的年份数组
 			const years: number[] = [];
 			for (let i = 4; i >= 0; i--) {
 				years.push(currentYear - i);
 			}
-			
+
 			// 统计各年份的软著数量
 			const yearStats: { [key: number]: { registered: number; applying: number } } = {};
-			
+
 			// 初始化统计对象
 			years.forEach(year => {
 				yearStats[year] = { registered: 0, applying: 0 };
 			});
-			
+
 			// 统计数据
 			softs.forEach((soft: any) => {
 				// 已登记软著按登记日期年份统计
@@ -467,7 +459,7 @@
 						yearStats[year].registered++;
 					}
 				}
-				
+
 				// 申请中软著按申请日期年份统计
 				if (soft.applicationDate) {
 					const year = new Date(soft.applicationDate).getFullYear();
@@ -476,7 +468,7 @@
 					}
 				}
 			});
-			
+
 			// 转换为图表数据格式
 			softTrendData.length = 0;
 			years.forEach(year => {
@@ -485,7 +477,7 @@
 					values: [yearStats[year].registered, yearStats[year].applying]
 				});
 			});
-			
+
 		} catch (error) {
 			console.error('获取软著年度趋势数据失败:', error);
 		}
@@ -510,7 +502,11 @@
 
 <style lang="scss">
 	.intellectual-dashboard {
+		height: 100%;
+		overflow-y: auto;
 		overflow-x: hidden;
+		padding: 10px;
+		box-sizing: border-box;
 
 		.card {
 			border-radius: 10px;
