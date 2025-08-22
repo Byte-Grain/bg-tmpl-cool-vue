@@ -64,7 +64,7 @@ async function loadOrganizations() {
 				}));
 		}
 	} catch (error) {
-		console.error('加载机构数据失败:', error);
+		console.error(t('加载机构数据失败'), error);
 	}
 }
 
@@ -75,7 +75,7 @@ const getDictData = async () => {
 	// 使用字典store刷新数据
 	await dict.refresh(dictTypes);
 
-	console.log('专利字典数据加载:', {
+	console.log(t('专利字典数据加载'), {
 		patentType: dict.get('intellectual_patent_type').value,
 		legalStatus: dict.get('intellectual_legal_status').value
 	});
@@ -176,7 +176,7 @@ const Upsert = useUpsert({
 			component: {
 				name: 'el-select',
 				options: dict.get('intellectual_patent_type'),
-				props: { clearable: true, placeholder: '请选择专利类型' }
+				props: { clearable: true, placeholder: t('请选择专利类型') }
 			},
 			value: 0,
 			required: true,
@@ -188,7 +188,7 @@ const Upsert = useUpsert({
 			component: {
 				name: 'el-select',
 				options: dict.get('intellectual_legal_status'),
-				props: { clearable: true, placeholder: '请选择法律状态' }
+				props: { clearable: true, placeholder: t('请选择法律状态') }
 			},
 			value: 0,
 			required: true,

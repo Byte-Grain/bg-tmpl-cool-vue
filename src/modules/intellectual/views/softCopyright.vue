@@ -68,7 +68,7 @@ async function loadOrganizations() {
 				}));
 		}
 	} catch (error) {
-		console.error('加载机构数据失败:', error);
+		console.error(t('加载机构数据失败'), error);
 	}
 }
 
@@ -90,7 +90,7 @@ const getDictData = async () => {
 	// 使用字典store刷新数据
 	await dict.refresh(dictTypes);
 
-	console.log('软著字典数据加载:', {
+	console.log(t('软著字典数据加载'), {
 		category: categoryOptions.value,
 		developmentMethod: developmentMethodOptions.value,
 		acquisitionMethod: acquisitionMethodOptions.value,
@@ -136,7 +136,7 @@ const Upsert = useUpsert({
 			component: {
 				name: 'el-select',
 				options: categoryOptions,
-				props: { clearable: true, placeholder: '请选择分类' }
+				props: { clearable: true, placeholder: t('请选择分类') }
 			},
 			value: 0,
 			span: 12,
@@ -160,7 +160,7 @@ const Upsert = useUpsert({
 			component: {
 				name: 'el-select',
 				options: acquisitionMethodOptions,
-				props: { clearable: true, placeholder: '请选择取得方式' }
+				props: { clearable: true, placeholder: t('请选择取得方式') }
 			},
 			value: 0,
 			span: 12
@@ -171,7 +171,7 @@ const Upsert = useUpsert({
 			component: {
 				name: 'el-select',
 				options: scopeOfRightOptions,
-				props: { clearable: true, placeholder: '请选择权利范围' }
+				props: { clearable: true, placeholder: t('请选择权利范围') }
 			},
 			value: 0,
 			span: 12

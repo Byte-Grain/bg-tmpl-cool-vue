@@ -59,7 +59,7 @@ const getDictData = async () => {
 	// 使用字典store刷新数据
 	await dict.refresh(dictTypes);
 
-	console.log('商标收文字典数据加载:', {
+	console.log(t('商标收文字典数据加载'), {
 		documentType: dict.get('intellectual_document_type'),
 		documentName: dict.get('intellectual_trademark_document_name')
 	});
@@ -103,7 +103,7 @@ const Upsert = useUpsert({
 							});
 							trademarkOptions.value = mappedList;
 						} catch (error) {
-							console.error('搜索商标失败:', error);
+							console.error(t('搜索商标失败'), error);
 							trademarkOptions.value = [];
 						}
 					},

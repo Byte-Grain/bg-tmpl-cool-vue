@@ -55,7 +55,7 @@ const getDictData = async () => {
 	// 使用字典store刷新数据
 	await dict.refresh(dictTypes);
 
-	console.log('机构字典数据加载:', {
+	console.log(t('机构字典数据加载'), {
 		type: organizationTypeOptions.value
 	});
 };

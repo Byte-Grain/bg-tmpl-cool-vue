@@ -5,31 +5,31 @@
 		<el-row :gutter="10">
 			<el-col :lg="8" :md="12" :xs="24">
 				<count-card
-					title="已获得专利数量"
+					:title="t('已获得专利数量')"
 					icon="document"
 					:value="patentGranted.value"
 					trend-text="+8%"
-					footer-label="年度新增"
+					:footer-label="t('年度新增')"
 					:footer-value="patentGranted.yearlyIncrease"
 				/>
 			</el-col>
 			<el-col :lg="8" :md="12" :xs="24">
 				<count-card
-					title="申请中的专利数量"
+					:title="t('申请中的专利数量')"
 					icon="clock"
 					:value="patentApplying.value"
 					trend-text="+15%"
-					footer-label="年度新增"
+					:footer-label="t('年度新增')"
 					:footer-value="patentApplying.yearlyIncrease"
 				/>
 			</el-col>
 			<el-col :lg="8" :md="12" :xs="24">
 				<count-card
-					title="今年授权的专利数量"
+					:title="t('今年授权的专利数量')"
 					icon="trophy"
 					:value="patentYearly.value"
 					trend-text="+22%"
-					footer-label="较去年同期"
+					:footer-label="t('较去年同期')"
 					:footer-value="`+${patentYearly.yearlyProgress}`"
 				/>
 			</el-col>
@@ -39,31 +39,31 @@
 		<el-row :gutter="10">
 			<el-col :lg="8" :md="12" :xs="24">
 				<count-card
-					title="已获得软著数量"
+					:title="t('已获得软著数量')"
 					icon="code"
 					:value="softGranted.value"
 					trend-text="+12%"
-					footer-label="年度新增"
+					:footer-label="t('年度新增')"
 					:footer-value="softGranted.yearlyIncrease"
 				/>
 			</el-col>
 			<el-col :lg="8" :md="12" :xs="24">
 				<count-card
-					title="年度计划申请软著数量"
+					:title="t('年度计划申请软著数量')"
 					icon="calendar"
 					:value="softPlanned.value"
 					trend-text="+15%"
-					footer-label="年度新增"
+					:footer-label="t('年度新增')"
 					:footer-value="softPlanned.yearlyIncrease"
 				/>
 			</el-col>
 			<el-col :lg="8" :md="12" :xs="24">
 				<count-card
-					title="年度授权软著数量"
+					:title="t('年度授权软著数量')"
 					icon="medal"
 					:value="softYearly.value"
 					trend-text="+18%"
-					footer-label="较去年同期"
+					:footer-label="t('较去年同期')"
 					:footer-value="`+${softYearly.yearlyGrowth}`"
 				/>
 			</el-col>
@@ -73,15 +73,15 @@
 		<el-row :gutter="10">
 			<el-col :lg="12" :xs="24">
 				<common-type-chart
-					title="专利类型分布"
+					:title="t('专利类型分布')"
 					:data="patentTypeData"
-					:legend-data="['已授权', '申请中']"
+					:legend-data="[t('已授权'), t('申请中')]"
 					:colors="['#67C23A', '#409EFF']"
 				/>
 			</el-col>
 			<el-col :lg="12" :xs="24">
 				<common-trend-chart
-					title="专利年度趋势"
+					:title="t('专利年度趋势')"
 					:data="patentTrendData"
 					:series-config="patentTrendSeriesConfig"
 				/>
@@ -92,15 +92,15 @@
 		<el-row :gutter="10">
 			<el-col :lg="12" :xs="24">
 				<common-type-chart
-					title="软著类型分布"
+					:title="t('软著类型分布')"
 					:data="softTypeData"
-					:legend-data="['已登记', '申请中']"
+					:legend-data="[t('已登记'), t('申请中')]"
 					:colors="['#E6A23C', '#F56C6C']"
 				/>
 			</el-col>
 			<el-col :lg="12" :xs="24">
 				<common-trend-chart
-					title="软著年度趋势"
+					:title="t('软著年度趋势')"
 					:data="softTrendData"
 					:series-config="softTrendSeriesConfig"
 				/>
@@ -113,6 +113,7 @@
 <script lang="ts" setup>
 import { onMounted, reactive } from 'vue';
 import { service } from '/@/cool';
+import { useI18n } from 'vue-i18n';
 import CountCard from './components/count-card.vue';
 import CommonTypeChart from './components/common-type-chart.vue';
 import CommonTrendChart from './components/common-trend-chart.vue';
@@ -122,6 +123,7 @@ defineOptions({
 	name: 'intellectual-dashboard'
 });
 
+const { t } = useI18n();
 const { dict } = useDict();
 
 // 专利类型分布图数据
@@ -138,8 +140,8 @@ interface TrendDataItem {
 }
 const patentTrendData = reactive<TrendDataItem[]>([]);
 const patentTrendSeriesConfig = reactive([
-	{ name: '已授权专利', color: '#67C23A' },
-	{ name: '申请的专利', color: '#409EFF' }
+	{ name: t('已授权专利'), color: '#67C23A' },
+	{ name: t('申请的专利'), color: '#409EFF' }
 ]);
 
 // 软著类型分布图数据
@@ -148,8 +150,8 @@ const softTypeData = reactive<ChartDataItem[]>([]);
 // 软著年度趋势图数据
 const softTrendData = reactive<TrendDataItem[]>([]);
 const softTrendSeriesConfig = reactive([
-	{ name: '已登记软著', color: '#E6A23C' },
-	{ name: '申请中软著', color: '#F56C6C' }
+	{ name: t('已登记软著'), color: '#E6A23C' },
+	{ name: t('申请中软著'), color: '#F56C6C' }
 ]);
 
 // 专利相关数据

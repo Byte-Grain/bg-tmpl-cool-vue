@@ -64,7 +64,7 @@ async function loadOrganizations() {
 				}));
 		}
 	} catch (error) {
-		console.error('加载机构数据失败:', error);
+		console.error(t('加载机构数据失败'), error);
 	}
 }
 
@@ -75,7 +75,7 @@ const getDictData = async () => {
 	// 使用字典store刷新数据
 	await dict.refresh(dictTypes);
 
-	console.log('商标字典数据加载:', {
+	console.log(t('商标字典数据加载'), {
 		trademarkType: dict.get('intellectual_trademark_type').value,
 		legalStatus: dict.get('intellectual_legal_status').value
 	});
@@ -117,7 +117,7 @@ const Upsert = useUpsert({
 			component: {
 				name: 'el-select',
 				options: dict.get('intellectual_trademark_type'),
-				props: { clearable: true, placeholder: '请选择类型' }
+				props: { clearable: true, placeholder: t('请选择类型') }
 			},
 			span: 12,
 			value: 0,
@@ -129,7 +129,7 @@ const Upsert = useUpsert({
 			component: {
 				name: 'el-select',
 				options: dict.get('intellectual_trademark_classification'),
-				props: { clearable: true, placeholder: '请选择分类号' }
+				props: { clearable: true, placeholder: t('请选择分类号') }
 			},
 			span: 12
 		},
@@ -139,7 +139,7 @@ const Upsert = useUpsert({
 			component: {
 				name: 'el-select',
 				options: dict.get('intellectual_trademark_source'),
-				props: { clearable: true, placeholder: '请选择来源' }
+				props: { clearable: true, placeholder: t('请选择来源') }
 			},
 			span: 12
 		},
@@ -149,7 +149,7 @@ const Upsert = useUpsert({
 			component: {
 				name: 'el-select',
 				options: dict.get('intellectual_legal_status'),
-				props: { clearable: true, placeholder: '请选择法律状态' }
+				props: { clearable: true, placeholder: t('请选择法律状态') }
 			},
 			span: 12,
 			value: 0,

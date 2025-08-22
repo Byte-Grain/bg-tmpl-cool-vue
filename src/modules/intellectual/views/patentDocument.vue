@@ -59,7 +59,7 @@ const getDictData = async () => {
 	// 使用字典store刷新数据
 	await dict.refresh(dictTypes);
 
-	console.log('专利收文字典数据加载:', {
+	console.log(t('专利收文字典数据加载'), {
 		documentType: documentTypeOptions.value,
 		documentName: documentNameOptions.value
 	});
@@ -103,7 +103,7 @@ const Upsert = useUpsert({
 							});
 							patentOptions.value = mappedList;
 						} catch (error) {
-							console.error('搜索专利失败:', error);
+							console.error(t('搜索专利失败'), error);
 							patentOptions.value = [];
 						}
 					},

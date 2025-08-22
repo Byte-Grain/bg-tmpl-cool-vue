@@ -59,7 +59,7 @@ const getDictData = async () => {
 	// 使用字典store刷新数据
 	await dict.refresh(dictTypes);
 
-	console.log('软著收文字典数据加载:', {
+	console.log(t('软著收文字典数据加载'), {
 		documentType: documentTypeOptions.value,
 		documentName: documentNameOptions.value
 	});
@@ -103,7 +103,7 @@ const Upsert = useUpsert({
 							});
 							softCopyrightOptions.value = mappedList;
 						} catch (error) {
-							console.error('搜索软著失败:', error);
+							console.error(t('搜索软著失败'), error);
 							softCopyrightOptions.value = [];
 						}
 					},
