@@ -7,6 +7,17 @@
 			<cl-add-btn />
 			<!-- 删除按钮 -->
 			<cl-multi-delete-btn />
+			<!-- Excel导入按钮 -->
+			<cl-import-btn
+				template="/软著导入模版.csv"
+				:on-submit="onImportSubmit"
+				tips="请按照模板格式填写软著数据"
+			/>
+			<!-- Excel导出按钮 -->
+			<cl-export-btn
+				:columns="exportColumns"
+				:filename="`软著数据_${new Date().toISOString().split('T')[0]}`"
+			/>
 			<cl-flex1 />
 			<!-- 条件搜索 -->
 			<cl-search ref="Search" />
@@ -38,6 +49,7 @@ import { useUpsert, useCrud, useTable, useSearch } from '@cool-vue/crud';
 import { useCool } from '/@/cool';
 import { useI18n } from 'vue-i18n';
 import { useDict } from '/$/dict';
+import { ElMessage } from 'element-plus';
 
 const { service } = useCool();
 const { t } = useI18n();
@@ -383,4 +395,118 @@ const Crud = useCrud(
 function refresh(params?: any) {
 	Crud.value?.refresh(params);
 }
+
+// Excel导入处理函数
+const onImportSubmit = async (data: any[]) => {
+	try {
+		// 创建字典值映射
+		const categoryMap = new Map<string, number>();
+		categoryOptions.value.forEach((item: any) => {
+			categoryMap.set(item.label, item.value);
+		});
+
+		const developmentMethodMap = new Map<string, number>();
+		developmentMethodOptions.value.forEach((item: any) => {
+			developmentMethodMap.set(item.label, item.value);
+		});
+
+		const acquisitionMethodMap = new Map<string, number>();
+		acquisitionMethodOptions.value.forEach((item: any) => {
+			acquisitionMethodMap.set(item.label, item.value);
+		});
+
+		const scopeOfRightMap = new Map<string, number>();
+		scopeOfRightOptions.value.forEach((item: any) => {
+			scopeOfRightMap.set(item.label, item.value);
+		});
+
+		const legalStatusMap = new Map<string, number>();
+		legalStatusOptions.value.forEach((item: any) => {
+			legalStatusMap.set(item.label, item.value);
+		});
+
+		const validData: any[] = [];
+		const errors: string[] = [];
+
+		data.forEach((row: any, index: number) => {
+			// 验证必填字段
+			if (!row.name || !row.category || !row.legalStatus) {
+				errors.push(`第${index + 1}行：名称、分类、法律状态为必填项`);
+				return;
+			}
+
+			// 转换数据
+			const transformedRow = {
+				...row,
+				category: categoryMap.get(row.category) ?? row.category,
+				developmentMethod:
+					developmentMethodMap.get(row.developmentMethod) ?? row.developmentMethod,
+				acquisitionMethod:
+					acquisitionMethodMap.get(row.acquisitionMethod) ?? row.acquisitionMethod,
+				scopeOfRight: scopeOfRightMap.get(row.scopeOfRight) ?? row.scopeOfRight,
+				legalStatus: legalStatusMap.get(row.legalStatus) ?? row.legalStatus
+			};
+
+			validData.push(transformedRow);
+		});
+
+		if (errors.length > 0) {
+			ElMessage.error(`导入失败：${errors.join('; ')}`);
+			return;
+		}
+
+		// 批量添加数据
+		for (const item of validData) {
+			await service.intellectual.softCopyright.add(item);
+		}
+
+		ElMessage.success(`成功导入 ${validData.length} 条软著数据`);
+		refresh();
+	} catch (error) {
+		console.error('导入软著数据失败:', error);
+		ElMessage.error('导入失败，请检查数据格式');
+	}
+};
+
+// 导出列配置
+const exportColumns = computed(() => [
+	{ label: '软著名称', prop: 'name' },
+	{ label: '版本', prop: 'version' },
+	{ label: '简称', prop: 'shortName' },
+	{
+		label: '分类',
+		prop: 'category',
+		dict: categoryOptions.value
+	},
+	{ label: '流水号', prop: 'serialNumber' },
+	{ label: '登记号', prop: 'registrationNumber' },
+	{ label: '证书号', prop: 'certificateNumber' },
+	{
+		label: '开发方式',
+		prop: 'developmentMethod',
+		dict: developmentMethodOptions.value
+	},
+	{ label: '完成日', prop: 'completionDate' },
+	{ label: '发表日', prop: 'publicationDate' },
+	{ label: '申请日', prop: 'applicationDate' },
+	{ label: '证书日', prop: 'certificateDate' },
+	{
+		label: '获得方式',
+		prop: 'acquisitionMethod',
+		dict: acquisitionMethodOptions.value
+	},
+	{
+		label: '权利范围',
+		prop: 'scopeOfRight',
+		dict: scopeOfRightOptions.value
+	},
+	{ label: '权利人', prop: 'rightHolder' },
+	{ label: '申请人', prop: 'applicant' },
+	{
+		label: '法律状态',
+		prop: 'legalStatus',
+		dict: legalStatusOptions.value
+	},
+	{ label: '备注', prop: 'remark' }
+]);
 </script>
