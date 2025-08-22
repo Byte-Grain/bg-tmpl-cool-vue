@@ -1,6 +1,7 @@
 import { ModuleConfig } from '/@/cool';
 import { App } from 'vue';
 
+// TODO: 统一为upload插件增加module属性，用于按照模块存储数据
 export default (): ModuleConfig => {
 	const config = {
 		name: 'intellectual',
