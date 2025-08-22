@@ -455,6 +455,16 @@ declare namespace Eps {
 		parentId?: number;
 
 		/**
+		 * el-tag类型
+		 */
+		type?: string;
+
+		/**
+		 * el-tag颜色
+		 */
+		color?: string;
+
+		/**
 		 * 创建时间
 		 */
 		createTime?: string;
@@ -3152,7 +3162,8 @@ declare namespace Eps {
 		| "intellectual_trademark_source"
 		| "intellectual_trademark_classification"
 		| "intellectual_trademark_document_name"
-		| "intellectual_legal_status";
+		| "intellectual_legal_status"
+		| "test";
 
 	type Service = {
 		request: Request;

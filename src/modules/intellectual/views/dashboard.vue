@@ -211,7 +211,7 @@ const getPatentStatistics = async () => {
 		const lastYearEnd = new Date(lastYear, 11, 31);
 
 		// 已获得专利数量（法律状态为已授权）
-		const grantedPatents = patents.filter(patent => patent.legalStatus === 5);
+		const grantedPatents = patents.filter(patent => patent.legalStatus === 2);
 		patentGranted.value = grantedPatents.length;
 
 		// 年度新增已授权专利数量（证书日期在今年）
@@ -238,7 +238,7 @@ const getPatentStatistics = async () => {
 		}
 
 		// 申请中专利数量（法律状态为审查中、待诉讼、驳回复审）
-		const applyingStatusList = [2, 3, 4, 6];
+		const applyingStatusList = [1, 5, 6];
 		const applyingPatents = patents.filter(
 			patent => patent.legalStatus && applyingStatusList.includes(patent.legalStatus)
 		);
@@ -310,7 +310,7 @@ const getSoftStatistics = async () => {
 		const lastYearEnd = new Date(lastYear, 11, 31);
 
 		// 已获得软著数量（法律状态为已登记）
-		const grantedSofts = softs.filter(soft => soft.legalStatus === 5);
+		const grantedSofts = softs.filter(soft => soft.legalStatus === 1);
 		softGranted.value = grantedSofts.length;
 
 		// 年度新增已登记软著数量（申请日期在今年）
@@ -337,7 +337,7 @@ const getSoftStatistics = async () => {
 		}
 
 		// 年度计划申请软著数量（法律状态为申请中）
-		const plannedSofts = softs.filter(soft => soft.legalStatus < 8);
+		const plannedSofts = softs.filter(soft => soft.legalStatus === 0);
 		softPlanned.value = plannedSofts.length;
 
 		// 年度新增申请中软著数量（申请日期在今年）
@@ -422,10 +422,10 @@ const getPatentTypeData = async () => {
 			if (patent.patentType !== undefined && typeMap[patent.patentType]) {
 				const typeName = typeMap[patent.patentType];
 
-				if (patent.legalStatus === 5) {
+				if (patent.legalStatus === 2) {
 					// 已授权
 					typeStats[typeName].granted++;
-				} else if (patent.legalStatus && [2, 3, 4, 6].includes(patent.legalStatus)) {
+				} else if (patent.legalStatus && [1, 5, 6].includes(patent.legalStatus)) {
 					// 申请中
 					typeStats[typeName].applying++;
 				}
@@ -474,7 +474,7 @@ const getPatentTrendData = async () => {
 		// 统计数据
 		patents.forEach((patent: any) => {
 			// 已授权专利按证书日期年份统计
-			if (patent.legalStatus === 5 && patent.certificateDate) {
+			if (patent.legalStatus === 2 && patent.certificateDate) {
 				const year = new Date(patent.certificateDate).getFullYear();
 				if (yearStats[year]) {
 					yearStats[year].granted++;
@@ -537,10 +537,10 @@ const getSoftTypeData = async () => {
 			if (soft.category !== undefined && typeMap[soft.category]) {
 				const typeName = typeMap[soft.category];
 
-				if (soft.legalStatus === 5) {
+				if (soft.legalStatus === 1) {
 					// 已登记
 					typeStats[typeName].registered++;
-				} else if (soft.legalStatus < 8) {
+				} else if (soft.legalStatus === 0) {
 					// 申请中
 					typeStats[typeName].applying++;
 				}
@@ -589,7 +589,7 @@ const getSoftTrendData = async () => {
 		// 统计数据
 		softs.forEach((soft: any) => {
 			// 已登记软著按登记日期年份统计
-			if (soft.legalStatus === 5 && soft.registrationDate) {
+			if (soft.legalStatus === 1 && soft.registrationDate) {
 				const year = new Date(soft.registrationDate).getFullYear();
 				if (yearStats[year]) {
 					yearStats[year].registered++;
