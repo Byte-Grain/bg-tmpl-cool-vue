@@ -8,7 +8,7 @@
 					:title="t('已获得专利数量')"
 					icon="document"
 					:value="patentGranted.value"
-					trend-text="+8%"
+					:trend-text="`${patentGranted.growthRate >= 0 ? '+' : ''}${patentGranted.growthRate}%`"
 					:footer-label="t('年度新增')"
 					:footer-value="patentGranted.yearlyIncrease"
 				/>
@@ -18,7 +18,7 @@
 					:title="t('申请中的专利数量')"
 					icon="clock"
 					:value="patentApplying.value"
-					trend-text="+15%"
+					:trend-text="`${patentApplying.growthRate >= 0 ? '+' : ''}${patentApplying.growthRate}%`"
 					:footer-label="t('年度新增')"
 					:footer-value="patentApplying.yearlyIncrease"
 				/>
@@ -28,7 +28,7 @@
 					:title="t('今年授权的专利数量')"
 					icon="trophy"
 					:value="patentYearly.value"
-					trend-text="+22%"
+					:trend-text="`${patentYearly.growthRate >= 0 ? '+' : ''}${patentYearly.growthRate}%`"
 					:footer-label="t('较去年同期')"
 					:footer-value="`+${patentYearly.yearlyProgress}`"
 				/>
@@ -42,7 +42,7 @@
 					:title="t('已获得软著数量')"
 					icon="code"
 					:value="softGranted.value"
-					trend-text="+12%"
+					:trend-text="`${softGranted.growthRate >= 0 ? '+' : ''}${softGranted.growthRate}%`"
 					:footer-label="t('年度新增')"
 					:footer-value="softGranted.yearlyIncrease"
 				/>
@@ -52,7 +52,7 @@
 					:title="t('年度计划申请软著数量')"
 					icon="calendar"
 					:value="softPlanned.value"
-					trend-text="+15%"
+					:trend-text="`${softPlanned.growthRate >= 0 ? '+' : ''}${softPlanned.growthRate}%`"
 					:footer-label="t('年度新增')"
 					:footer-value="softPlanned.yearlyIncrease"
 				/>
@@ -62,7 +62,7 @@
 					:title="t('年度授权软著数量')"
 					icon="medal"
 					:value="softYearly.value"
-					trend-text="+18%"
+					:trend-text="`${softYearly.growthRate >= 0 ? '+' : ''}${softYearly.growthRate}%`"
 					:footer-label="t('较去年同期')"
 					:footer-value="`+${softYearly.yearlyGrowth}`"
 				/>
@@ -157,33 +157,39 @@ const softTrendSeriesConfig = reactive([
 // 专利相关数据
 const patentGranted = reactive({
 	value: 0,
-	yearlyIncrease: 0
+	yearlyIncrease: 0,
+	growthRate: 0
 });
 
 const patentApplying = reactive({
 	value: 0,
-	yearlyIncrease: 0
+	yearlyIncrease: 0,
+	growthRate: 0
 });
 
 const patentYearly = reactive({
 	value: 0,
-	yearlyProgress: 0
+	yearlyProgress: 0,
+	growthRate: 0
 });
 
 // 软著相关数据
 const softGranted = reactive({
 	value: 0,
-	yearlyIncrease: 0
+	yearlyIncrease: 0,
+	growthRate: 0
 });
 
 const softPlanned = reactive({
 	value: 0,
-	yearlyIncrease: 0
+	yearlyIncrease: 0,
+	growthRate: 0
 });
 
 const softYearly = reactive({
 	value: 0,
-	yearlyGrowth: 0
+	yearlyGrowth: 0,
+	growthRate: 0
 });
 
 // 获取所有专利数据并计算统计指标
@@ -198,11 +204,14 @@ const getPatentStatistics = async () => {
 		const patents = res.list || [];
 		const now = new Date();
 		const currentYear = now.getFullYear();
+		const lastYear = currentYear - 1;
 		const startOfYear = new Date(currentYear, 0, 1);
 		const endOfYear = new Date(currentYear, 11, 31);
+		const lastYearStart = new Date(lastYear, 0, 1);
+		const lastYearEnd = new Date(lastYear, 11, 31);
 
 		// 已获得专利数量（法律状态为已授权）
-		const grantedPatents = patents.filter(patent => patent.legalStatus === 2);
+		const grantedPatents = patents.filter(patent => patent.legalStatus === 5);
 		patentGranted.value = grantedPatents.length;
 
 		// 年度新增已授权专利数量（证书日期在今年）
@@ -213,8 +222,23 @@ const getPatentStatistics = async () => {
 		});
 		patentGranted.yearlyIncrease = yearlyGrantedPatents.length;
 
+		// 计算已获得专利的增长率（与去年同期对比）
+		const lastYearGrantedPatents = grantedPatents.filter(patent => {
+			if (!patent.certificateDate) return false;
+			const certDate = new Date(patent.certificateDate);
+			return certDate >= lastYearStart && certDate <= lastYearEnd;
+		});
+		const lastYearGrantedCount = lastYearGrantedPatents.length;
+		if (lastYearGrantedCount > 0) {
+			patentGranted.growthRate = Math.round(
+				((patentGranted.yearlyIncrease - lastYearGrantedCount) / lastYearGrantedCount) * 100
+			);
+		} else {
+			patentGranted.growthRate = patentGranted.yearlyIncrease > 0 ? 100 : 0;
+		}
+
 		// 申请中专利数量（法律状态为审查中、待诉讼、驳回复审）
-		const applyingStatusList = [1, 5, 6];
+		const applyingStatusList = [2, 3, 4, 6];
 		const applyingPatents = patents.filter(
 			patent => patent.legalStatus && applyingStatusList.includes(patent.legalStatus)
 		);
@@ -228,8 +252,33 @@ const getPatentStatistics = async () => {
 		});
 		patentApplying.yearlyIncrease = yearlyApplyingPatents.length;
 
+		// 计算申请中专利的增长率（与去年同期对比）
+		const lastYearApplyingPatents = applyingPatents.filter(patent => {
+			if (!patent.applicationDate) return false;
+			const appDate = new Date(patent.applicationDate);
+			return appDate >= lastYearStart && appDate <= lastYearEnd;
+		});
+		const lastYearApplyingCount = lastYearApplyingPatents.length;
+		if (lastYearApplyingCount > 0) {
+			patentApplying.growthRate = Math.round(
+				((patentApplying.yearlyIncrease - lastYearApplyingCount) / lastYearApplyingCount) *
+					100
+			);
+		} else {
+			patentApplying.growthRate = patentApplying.yearlyIncrease > 0 ? 100 : 0;
+		}
+
 		// 今年授权专利数量（证书日期在今年的已授权专利）
 		patentYearly.value = yearlyGrantedPatents.length;
+
+		// 计算今年授权专利的增长率（与去年同期对比）
+		if (lastYearGrantedCount > 0) {
+			patentYearly.growthRate = Math.round(
+				((patentYearly.value - lastYearGrantedCount) / lastYearGrantedCount) * 100
+			);
+		} else {
+			patentYearly.growthRate = patentYearly.value > 0 ? 100 : 0;
+		}
 
 		// 计算进度百分比（假设年度目标为50个专利）
 		const yearlyTarget = 50;
@@ -261,7 +310,7 @@ const getSoftStatistics = async () => {
 		const lastYearEnd = new Date(lastYear, 11, 31);
 
 		// 已获得软著数量（法律状态为已登记）
-		const grantedSofts = softs.filter(soft => soft.legalStatus === 1);
+		const grantedSofts = softs.filter(soft => soft.legalStatus === 5);
 		softGranted.value = grantedSofts.length;
 
 		// 年度新增已登记软著数量（申请日期在今年）
@@ -272,8 +321,23 @@ const getSoftStatistics = async () => {
 		});
 		softGranted.yearlyIncrease = yearlyGrantedSofts.length;
 
+		// 计算已获得软著的增长率（与去年同期对比）
+		const lastYearGrantedSofts = grantedSofts.filter(soft => {
+			if (!soft.applicationDate) return false;
+			const appDate = new Date(soft.applicationDate);
+			return appDate >= lastYearStart && appDate <= lastYearEnd;
+		});
+		const lastYearGrantedCount = lastYearGrantedSofts.length;
+		if (lastYearGrantedCount > 0) {
+			softGranted.growthRate = Math.round(
+				((softGranted.yearlyIncrease - lastYearGrantedCount) / lastYearGrantedCount) * 100
+			);
+		} else {
+			softGranted.growthRate = softGranted.yearlyIncrease > 0 ? 100 : 0;
+		}
+
 		// 年度计划申请软著数量（法律状态为申请中）
-		const plannedSofts = softs.filter(soft => soft.legalStatus === 0);
+		const plannedSofts = softs.filter(soft => soft.legalStatus < 8);
 		softPlanned.value = plannedSofts.length;
 
 		// 年度新增申请中软著数量（申请日期在今年）
@@ -284,21 +348,37 @@ const getSoftStatistics = async () => {
 		});
 		softPlanned.yearlyIncrease = yearlyPlannedSofts.length;
 
-		// 年度授权软著数量（今年已登记的软著）
-		softYearly.value = yearlyGrantedSofts.length;
-
-		// 获取去年同期数据
-		const lastYearGrantedSofts = grantedSofts.filter(soft => {
+		// 计算计划申请软著的增长率（与去年同期对比）
+		const lastYearPlannedSofts = plannedSofts.filter(soft => {
 			if (!soft.applicationDate) return false;
 			const appDate = new Date(soft.applicationDate);
 			return appDate >= lastYearStart && appDate <= lastYearEnd;
 		});
-		const lastYearCount = lastYearGrantedSofts.length;
+		const lastYearPlannedCount = lastYearPlannedSofts.length;
+		if (lastYearPlannedCount > 0) {
+			softPlanned.growthRate = Math.round(
+				((softPlanned.yearlyIncrease - lastYearPlannedCount) / lastYearPlannedCount) * 100
+			);
+		} else {
+			softPlanned.growthRate = softPlanned.yearlyIncrease > 0 ? 100 : 0;
+		}
 
-		// 计算年度增长百分比
-		if (lastYearCount > 0) {
+		// 年度授权软著数量（今年已登记的软著）
+		softYearly.value = yearlyGrantedSofts.length;
+
+		// 计算年度授权软著的增长率（与去年同期对比）
+		if (lastYearGrantedCount > 0) {
+			softYearly.growthRate = Math.round(
+				((softYearly.value - lastYearGrantedCount) / lastYearGrantedCount) * 100
+			);
+		} else {
+			softYearly.growthRate = softYearly.value > 0 ? 100 : 0;
+		}
+
+		// 计算年度增长百分比（保持原有逻辑）
+		if (lastYearGrantedCount > 0) {
 			softYearly.yearlyGrowth = Math.round(
-				((softYearly.value - lastYearCount) / lastYearCount) * 100
+				((softYearly.value - lastYearGrantedCount) / lastYearGrantedCount) * 100
 			);
 		} else {
 			softYearly.yearlyGrowth = softYearly.value > 0 ? 100 : 0;
@@ -342,10 +422,10 @@ const getPatentTypeData = async () => {
 			if (patent.patentType !== undefined && typeMap[patent.patentType]) {
 				const typeName = typeMap[patent.patentType];
 
-				if (patent.legalStatus === 2) {
+				if (patent.legalStatus === 5) {
 					// 已授权
 					typeStats[typeName].granted++;
-				} else if (patent.legalStatus && [1, 5, 6].includes(patent.legalStatus)) {
+				} else if (patent.legalStatus && [2, 3, 4, 6].includes(patent.legalStatus)) {
 					// 申请中
 					typeStats[typeName].applying++;
 				}
@@ -394,7 +474,7 @@ const getPatentTrendData = async () => {
 		// 统计数据
 		patents.forEach((patent: any) => {
 			// 已授权专利按证书日期年份统计
-			if (patent.legalStatus === 2 && patent.certificateDate) {
+			if (patent.legalStatus === 5 && patent.certificateDate) {
 				const year = new Date(patent.certificateDate).getFullYear();
 				if (yearStats[year]) {
 					yearStats[year].granted++;
@@ -457,10 +537,10 @@ const getSoftTypeData = async () => {
 			if (soft.category !== undefined && typeMap[soft.category]) {
 				const typeName = typeMap[soft.category];
 
-				if (soft.legalStatus === 1) {
+				if (soft.legalStatus === 5) {
 					// 已登记
 					typeStats[typeName].registered++;
-				} else if (soft.legalStatus === 0) {
+				} else if (soft.legalStatus < 8) {
 					// 申请中
 					typeStats[typeName].applying++;
 				}
@@ -509,7 +589,7 @@ const getSoftTrendData = async () => {
 		// 统计数据
 		softs.forEach((soft: any) => {
 			// 已登记软著按登记日期年份统计
-			if (soft.legalStatus === 1 && soft.registrationDate) {
+			if (soft.legalStatus === 5 && soft.registrationDate) {
 				const year = new Date(soft.registrationDate).getFullYear();
 				if (yearStats[year]) {
 					yearStats[year].registered++;

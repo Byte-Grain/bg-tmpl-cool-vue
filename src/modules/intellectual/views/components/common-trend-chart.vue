@@ -62,6 +62,7 @@ const chartOption = reactive({
 	yAxis: {
 		type: 'value',
 		offset: 20,
+		minInterval: 1,
 		splitLine: {
 			show: true,
 			lineStyle: {
@@ -96,7 +97,7 @@ const chartOption = reactive({
 	},
 	legend: {
 		data: [] as string[],
-		top: '10%'
+		top: 10
 	},
 	series: [] as any[]
 });
