@@ -58,11 +58,6 @@ const getDictData = async () => {
 
 	// 使用字典store刷新数据
 	await dict.refresh(dictTypes);
-
-	console.log(t('专利收文字典数据加载'), {
-		documentType: documentTypeOptions.value,
-		documentName: documentNameOptions.value
-	});
 };
 
 // 初始化字典数据
