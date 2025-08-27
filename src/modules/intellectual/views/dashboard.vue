@@ -54,7 +54,7 @@
 		<!-- 软著统计图表 -->
 		<el-row :gutter="10">
 			<el-col :lg="12" :xs="24">
-				<common-type-chart :title="t('软著类型分布')" :data="softTypeData" :legend-data="[t('已登记'), t('申请中')]"
+				<common-type-chart :title="t('软著类型分布')" :data="softTypeData" :legend-data="[t('已登记')]"
 					:colors="['#E6A23C', '#F56C6C']" />
 			</el-col>
 			<el-col :lg="12" :xs="24">
@@ -95,8 +95,8 @@
 	}
 	const patentTrendData = reactive<TrendDataItem[]>([]);
 	const patentTrendSeriesConfig = reactive([
-		{ name: t('已授权专利'), color: '#67C23A' },
-		{ name: t('申请的专利'), color: '#409EFF' }
+		{ name: t('授权的数量'), color: '#67C23A' },
+		{ name: t('申请的数量'), color: '#409EFF' }
 	]);
 
 	// 软著类型分布图数据
@@ -105,8 +105,8 @@
 	// 软著年度趋势图数据
 	const softTrendData = reactive<TrendDataItem[]>([]);
 	const softTrendSeriesConfig = reactive([
-		{ name: t('已登记软著'), color: '#E6A23C' },
-		{ name: t('申请中软著'), color: '#F56C6C' }
+		{ name: t('登记的数量'), color: '#E6A23C' },
+		{ name: t('申请的数量'), color: '#F56C6C' }
 	]);
 
 	// 专利相关数据
@@ -169,7 +169,7 @@
 			const grantedPatents = patents.filter(patent => patent.legalStatus === 100);
 			patentGranted.value = grantedPatents.length;
 
-			// 年度新增已授权专利数量（证书日期在今年）
+			// 年度新增已授权专利数量（证书日期在本年）
 			const yearlyGrantedPatents = grantedPatents.filter(patent => {
 				if (!patent.certificateDate) return false;
 				const certDate = new Date(patent.certificateDate);
@@ -198,7 +198,7 @@
 			);
 			patentApplying.value = applyingPatents.length;
 
-			// 年度新增申请中专利数量（申请日期在今年）
+			// 年度新增申请中专利数量（申请日期在本年）
 			const yearlyApplyingPatents = applyingPatents.filter(patent => {
 				if (!patent.applicationDate) return false;
 				const appDate = new Date(patent.applicationDate);
@@ -222,7 +222,7 @@
 				patentApplying.growthRate = patentApplying.yearlyIncrease > 0 ? 100 : 0;
 			}
 
-			// 今年授权专利数量（证书日期在今年的已授权专利）
+			// 今年授权专利数量（证书日期在本年的已授权专利）
 			patentYearly.value = yearlyGrantedPatents.length;
 
 			// 计算今年授权专利的增长率（与去年同期对比）
@@ -267,7 +267,7 @@
 			const grantedSofts = softs.filter(soft => soft.legalStatus === 100);
 			softGranted.value = grantedSofts.length;
 
-			// 年度新增已登记软著数量（申请日期在今年）
+			// 年度新增已登记软著数量（申请日期在本月）
 			const yearlyGrantedSofts = grantedSofts.filter(soft => {
 				if (!soft.applicationDate) return false;
 				const appDate = new Date(soft.applicationDate);
@@ -294,7 +294,7 @@
 			const plannedSofts = softs.filter(soft => soft.legalStatus !== undefined && soft.legalStatus > 0 && soft.legalStatus < 100);
 			softPlanned.value = plannedSofts.length;
 
-			// 年度新增申请中软著数量（申请日期在今年）
+			// 年度新增申请中软著数量（申请日期在本月）
 			const yearlyPlannedSofts = plannedSofts.filter(soft => {
 				if (!soft.applicationDate) return false;
 				const appDate = new Date(soft.applicationDate);
@@ -376,10 +376,10 @@
 				if (patent.patentType !== undefined && typeMap[patent.patentType]) {
 					const typeName = typeMap[patent.patentType];
 
-					if (patent.legalStatus === 2) {
+					if (patent.legalStatus === 100) {
 						// 已授权
 						typeStats[typeName].granted++;
-					} else if (patent.legalStatus && [1, 5, 6].includes(patent.legalStatus)) {
+					} else if (patent.legalStatus && patent.legalStatus > 0 && patent.legalStatus < 100) {
 						// 申请中
 						typeStats[typeName].applying++;
 					}
@@ -399,59 +399,76 @@
 		}
 	};
 
+	// 通用年度趋势统计函数
+	function calcTrendData({
+		dataList,
+		currentYear,
+		getYearFn,
+		statusField,
+		grantedValue,
+		applyingValue,
+		grantedYearField,
+		applyingYearField
+	}: {
+		dataList: any[],
+		currentYear: number,
+		getYearFn: (item: any, type: 'granted' | 'applying') => number | null,
+		statusField: string,
+		grantedValue: any,
+		applyingValue: any,
+		grantedYearField: string,
+		applyingYearField: string
+	}) {
+		let minYear = currentYear;
+		dataList.forEach(item => {
+			const year = getYearFn(item, 'granted') || getYearFn(item, 'applying');
+			if (year && year < minYear) minYear = year;
+		});
+		const years: number[] = [];
+		for (let y = minYear; y <= currentYear; y++) years.push(y);
+		const yearStats: { [key: number]: { granted: number; applying: number } } = {};
+		years.forEach(year => {
+			yearStats[year] = { granted: 0, applying: 0 };
+		});
+		dataList.forEach(item => {
+			// 已授权/登记
+			if (item[statusField] === grantedValue && item[grantedYearField]) {
+				const year = new Date(item[grantedYearField]).getFullYear();
+				if (yearStats[year]) yearStats[year].granted++;
+			}
+			// 申请中
+			if (item[applyingYearField]) {
+				const year = new Date(item[applyingYearField]).getFullYear();
+				if (yearStats[year]) yearStats[year].applying++;
+			}
+		});
+		return years.map(year => ({
+			year: year.toString(),
+			values: [yearStats[year].granted, yearStats[year].applying]
+		}));
+	}
 	// 获取专利年度趋势数据
 	const getPatentTrendData = async () => {
 		try {
-			// 获取所有专利数据
-			const res = await service.intellectual.patent.page({
-				page: 1,
-				size: 10000
-			});
-
+			const res = await service.intellectual.patent.page({ page: 1, size: 10000 });
 			const patents = res.list || [];
 			const currentYear = new Date().getFullYear();
-
-			// 生成近5年的年份数组
-			const years: number[] = [];
-			for (let i = 4; i >= 0; i--) {
-				years.push(currentYear - i);
-			}
-
-			// 统计各年份的专利数量（按申请日年份）
-			const yearStats: { [key: number]: { granted: number; applying: number } } = {};
-
-			// 初始化统计对象
-			years.forEach(year => {
-				yearStats[year] = { granted: 0, applying: 0 };
+			const trend = calcTrendData({
+				dataList: patents,
+				currentYear,
+				getYearFn: (item, type) => {
+					if (type === 'granted' && item.certificateDate) return new Date(item.certificateDate).getFullYear();
+					if (type === 'applying' && item.applicationDate) return new Date(item.applicationDate).getFullYear();
+					return null;
+				},
+				statusField: 'legalStatus',
+				grantedValue: 100,
+				applyingValue: null,
+				grantedYearField: 'certificateDate',
+				applyingYearField: 'applicationDate'
 			});
-
-			// 统计数据
-			patents.forEach((patent: any) => {
-				// 已授权专利按证书日期年份统计
-				if (patent.legalStatus === 2 && patent.certificateDate) {
-					const year = new Date(patent.certificateDate).getFullYear();
-					if (yearStats[year]) {
-						yearStats[year].granted++;
-					}
-				}
-
-				// 申请的专利按申请日期年份统计
-				if (patent.applicationDate) {
-					const year = new Date(patent.applicationDate).getFullYear();
-					if (yearStats[year]) {
-						yearStats[year].applying++;
-					}
-				}
-			});
-
-			// 转换为图表数据格式
 			patentTrendData.length = 0;
-			years.forEach(year => {
-				patentTrendData.push({
-					year: year.toString(),
-					values: [yearStats[year].granted, yearStats[year].applying]
-				});
-			});
+			trend.forEach(item => patentTrendData.push(item));
 		} catch (error) {
 			console.error('获取专利年度趋势数据失败:', error);
 		}
@@ -491,10 +508,10 @@
 				if (soft.category !== undefined && typeMap[soft.category]) {
 					const typeName = typeMap[soft.category];
 
-					if (soft.legalStatus === 1) {
+					if (soft.legalStatus === 100) {
 						// 已登记
 						typeStats[typeName].registered++;
-					} else if (soft.legalStatus === 0) {
+					} else if (soft.legalStatus > 0 && soft.legalStatus < 100) {
 						// 申请中
 						typeStats[typeName].applying++;
 					}
@@ -517,56 +534,25 @@
 	// 获取软著年度趋势数据
 	const getSoftTrendData = async () => {
 		try {
-			// 获取所有软著数据
-			const res = await service.intellectual.softCopyright.page({
-				page: 1,
-				size: 10000
-			});
-
+			const res = await service.intellectual.softCopyright.page({ page: 1, size: 10000 });
 			const softs = res.list || [];
 			const currentYear = new Date().getFullYear();
-
-			// 生成近5年的年份数组
-			const years: number[] = [];
-			for (let i = 4; i >= 0; i--) {
-				years.push(currentYear - i);
-			}
-
-			// 统计各年份的软著数量
-			const yearStats: { [key: number]: { registered: number; applying: number } } = {};
-
-			// 初始化统计对象
-			years.forEach(year => {
-				yearStats[year] = { registered: 0, applying: 0 };
+			const trend = calcTrendData({
+				dataList: softs,
+				currentYear,
+				getYearFn: (item, type) => {
+					if (type === 'granted' && item.certificateDate) return new Date(item.certificateDate).getFullYear();
+					if (type === 'applying' && item.applicationDate) return new Date(item.applicationDate).getFullYear();
+					return null;
+				},
+				statusField: 'legalStatus',
+				grantedValue: 100,
+				applyingValue: null,
+				grantedYearField: 'certificateDate',
+				applyingYearField: 'applicationDate'
 			});
-
-			// 统计数据
-			softs.forEach((soft: any) => {
-				// 已登记软著按登记日期年份统计
-				if (soft.legalStatus === 1 && soft.registrationDate) {
-					const year = new Date(soft.registrationDate).getFullYear();
-					if (yearStats[year]) {
-						yearStats[year].registered++;
-					}
-				}
-
-				// 申请中软著按申请日期年份统计
-				if (soft.applicationDate) {
-					const year = new Date(soft.applicationDate).getFullYear();
-					if (yearStats[year]) {
-						yearStats[year].applying++;
-					}
-				}
-			});
-
-			// 转换为图表数据格式
 			softTrendData.length = 0;
-			years.forEach(year => {
-				softTrendData.push({
-					year: year.toString(),
-					values: [yearStats[year].registered, yearStats[year].applying]
-				});
-			});
+			trend.forEach(item => softTrendData.push(item));
 		} catch (error) {
 			console.error('获取软著年度趋势数据失败:', error);
 		}

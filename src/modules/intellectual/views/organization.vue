@@ -29,161 +29,161 @@
 </template>
 
 <script lang="ts" setup>
-defineOptions({
-	name: 'intellectual-organization'
-});
-
-import { useCrud, useTable, useUpsert, useSearch } from '@cool-vue/crud';
-import { useCool } from '/@/cool';
-import { useI18n } from 'vue-i18n';
-import { reactive, onMounted, computed } from 'vue';
-import { useDict } from '/@/modules/dict';
-
-const { service } = useCool();
-const { t } = useI18n();
-const { dict } = useDict();
-
-// 响应式字典数据
-const organizationTypeOptions = computed(
-	() => dict.get('intellectual_organization_type').value || []
-);
-
-// 获取字典数据
-const getDictData = async () => {
-	const dictTypes = ['intellectual_organization_type'];
-
-	// 使用字典store刷新数据
-	await dict.refresh(dictTypes);
-
-	console.log(t('机构字典数据加载'), {
-		type: organizationTypeOptions.value
+	defineOptions({
+		name: 'intellectual-organization'
 	});
-};
 
-// 初始化字典数据
-onMounted(async () => {
-	await getDictData();
-});
+	import { useCrud, useTable, useUpsert, useSearch } from '@cool-vue/crud';
+	import { useCool } from '/@/cool';
+	import { useI18n } from 'vue-i18n';
+	import { reactive, onMounted, computed } from 'vue';
+	import { useDict } from '/@/modules/dict';
 
-// cl-upsert
-const Upsert = useUpsert({
-	items: [
-		{
-			label: t('名称'),
-			prop: 'name',
-			component: { name: 'el-input', props: { clearable: true } },
-			span: 12,
-			required: true
-		},
-		{
-			label: t('编号'),
-			prop: 'code',
-			component: { name: 'el-input', props: { clearable: true } },
-			span: 12
-		},
-		{
-			label: t('类型'),
-			prop: 'type',
-			component: {
-				name: 'el-radio-group',
-				options: organizationTypeOptions
+	const { service } = useCool();
+	const { t } = useI18n();
+	const { dict } = useDict();
+
+	// 响应式字典数据
+	const organizationTypeOptions = computed(
+		() => dict.get('intellectual_organization_type').value || []
+	);
+
+	// 获取字典数据
+	const getDictData = async () => {
+		const dictTypes = ['intellectual_organization_type'];
+
+		// 使用字典store刷新数据
+		await dict.refresh(dictTypes);
+
+		console.log(t('机构字典数据加载'), {
+			type: organizationTypeOptions.value
+		});
+	};
+
+	// 初始化字典数据
+	onMounted(async () => {
+		await getDictData();
+	});
+
+	// cl-upsert
+	const Upsert = useUpsert({
+		items: [
+			{
+				label: t('名称'),
+				prop: 'name',
+				component: { name: 'el-input', props: { clearable: true } },
+				span: 24,
+				required: true
 			},
-			value: 0,
-			span: 24,
-			required: true
-		},
-		{
-			label: t('联系人'),
-			prop: 'contactPerson',
-			component: { name: 'el-input', props: { clearable: true } },
-			span: 8
-		},
-		{
-			label: t('电话'),
-			prop: 'phone',
-			component: { name: 'el-input', props: { clearable: true } },
-			span: 8
-		},
-		{
-			label: t('邮箱'),
-			prop: 'email',
-			component: { name: 'el-input', props: { clearable: true } },
-			span: 8
-		},
-		{
-			label: t('地址'),
-			prop: 'address',
-			component: {
-				name: 'el-input',
-				props: { type: 'textarea', rows: 4 }
+			{
+				label: t('编号'),
+				prop: 'code',
+				component: { name: 'el-input', props: { clearable: true } },
+				span: 24
+			},
+			{
+				label: t('类型'),
+				prop: 'type',
+				component: {
+					name: 'el-radio-group',
+					options: organizationTypeOptions
+				},
+				value: 0,
+				span: 24,
+				required: true
+			},
+			{
+				label: t('联系人'),
+				prop: 'contactPerson',
+				component: { name: 'el-input', props: { clearable: true } },
+				span: 8
+			},
+			{
+				label: t('电话'),
+				prop: 'phone',
+				component: { name: 'el-input', props: { clearable: true } },
+				span: 8
+			},
+			{
+				label: t('邮箱'),
+				prop: 'email',
+				component: { name: 'el-input', props: { clearable: true } },
+				span: 8
+			},
+			{
+				label: t('地址'),
+				prop: 'address',
+				component: {
+					name: 'el-input',
+					props: { type: 'textarea', rows: 4 }
+				}
+			},
+			{
+				label: t('备注'),
+				prop: 'remark',
+				component: {
+					name: 'el-input',
+					props: { type: 'textarea', rows: 4 }
+				}
 			}
-		},
+		]
+	});
+
+	// cl-table
+	const Table = useTable({
+		columns: [
+			{ type: 'selection' },
+			{ label: t('编号'), prop: 'code', minWidth: 120 },
+			{ label: t('名称'), prop: 'name', minWidth: 140 },
+			{ label: t('类型'), prop: 'type', minWidth: 120, dict: organizationTypeOptions },
+			{ label: t('联系人'), prop: 'contactPerson', minWidth: 140 },
+			{ label: t('电话'), prop: 'phone', minWidth: 140 },
+			{
+				label: t('地址'),
+				prop: 'address',
+				showOverflowTooltip: true,
+				minWidth: 200
+			},
+			{ label: t('邮箱'), prop: 'email', minWidth: 140 },
+			{
+				label: t('备注'),
+				prop: 'remark',
+				showOverflowTooltip: true,
+				minWidth: 200
+			},
+			{
+				label: t('创建时间'),
+				prop: 'createTime',
+				minWidth: 170,
+				sortable: 'desc',
+				component: { name: 'cl-date-text' }
+			},
+			{
+				label: t('更新时间'),
+				prop: 'updateTime',
+				minWidth: 170,
+				sortable: 'custom',
+				component: { name: 'cl-date-text' }
+			},
+			{ type: 'op', buttons: ['edit', 'delete'] }
+		]
+	});
+
+	// cl-search
+	const Search = useSearch();
+
+	// cl-crud
+	const Crud = useCrud(
 		{
-			label: t('备注'),
-			prop: 'remark',
-			component: {
-				name: 'el-input',
-				props: { type: 'textarea', rows: 4 }
-			}
+			service: service.intellectual.organization
+		},
+		app => {
+			app.refresh();
 		}
-	]
-});
+	);
 
-// cl-table
-const Table = useTable({
-	columns: [
-		{ type: 'selection' },
-		{ label: t('编号'), prop: 'code', minWidth: 120 },
-		{ label: t('名称'), prop: 'name', minWidth: 140 },
-		{ label: t('类型'), prop: 'type', minWidth: 120, dict: organizationTypeOptions },
-		{ label: t('联系人'), prop: 'contactPerson', minWidth: 140 },
-		{ label: t('电话'), prop: 'phone', minWidth: 140 },
-		{
-			label: t('地址'),
-			prop: 'address',
-			showOverflowTooltip: true,
-			minWidth: 200
-		},
-		{ label: t('邮箱'), prop: 'email', minWidth: 140 },
-		{
-			label: t('备注'),
-			prop: 'remark',
-			showOverflowTooltip: true,
-			minWidth: 200
-		},
-		{
-			label: t('创建时间'),
-			prop: 'createTime',
-			minWidth: 170,
-			sortable: 'desc',
-			component: { name: 'cl-date-text' }
-		},
-		{
-			label: t('更新时间'),
-			prop: 'updateTime',
-			minWidth: 170,
-			sortable: 'custom',
-			component: { name: 'cl-date-text' }
-		},
-		{ type: 'op', buttons: ['edit', 'delete'] }
-	]
-});
-
-// cl-search
-const Search = useSearch();
-
-// cl-crud
-const Crud = useCrud(
-	{
-		service: service.intellectual.organization
-	},
-	app => {
-		app.refresh();
+	// 刷新
+	function refresh(params?: any) {
+		Crud.value?.refresh(params);
 	}
-);
-
-// 刷新
-function refresh(params?: any) {
-	Crud.value?.refresh(params);
-}
 </script>
