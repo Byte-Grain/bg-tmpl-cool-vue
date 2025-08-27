@@ -18,3 +18,5 @@ yarn-error.log*
 *.sw*
 
 vite.config.ts.timestamp*
+build/cool/eps.d.ts
+build/cool/eps.json
