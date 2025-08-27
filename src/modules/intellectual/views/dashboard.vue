@@ -241,7 +241,7 @@
 				100
 			);
 		} catch (error) {
-			console.error('获取专利统计数据失败:', error);
+			console.error(t('获取专利统计数据失败:'), error);
 		}
 	};
 
@@ -338,7 +338,7 @@
 				softYearly.yearlyGrowth = softYearly.value > 0 ? 100 : 0;
 			}
 		} catch (error) {
-			console.error('获取软著统计数据失败:', error);
+			console.error(t('获取软著统计数据失败:'), error);
 		}
 	};
 
@@ -395,7 +395,7 @@
 				});
 			});
 		} catch (error) {
-			console.error('获取专利类型分布数据失败:', error);
+			console.error(t('获取专利类型分布数据失败:'), error);
 		}
 	};
 
@@ -470,7 +470,7 @@
 			patentTrendData.length = 0;
 			trend.forEach(item => patentTrendData.push(item));
 		} catch (error) {
-			console.error('获取专利年度趋势数据失败:', error);
+			console.error(t('获取专利年度趋势数据失败:'), error);
 		}
 	};
 
@@ -527,7 +527,7 @@
 				});
 			});
 		} catch (error) {
-			console.error('获取软著类型分布数据失败:', error);
+			console.error(t('获取软著类型分布数据失败:'), error);
 		}
 	};
 
@@ -554,7 +554,7 @@
 			softTrendData.length = 0;
 			trend.forEach(item => softTrendData.push(item));
 		} catch (error) {
-			console.error('获取软著年度趋势数据失败:', error);
+			console.error(t('获取软著年度趋势数据失败:'), error);
 		}
 	};
 

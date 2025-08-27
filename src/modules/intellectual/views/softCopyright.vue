@@ -8,9 +8,10 @@
 			<!-- 删除按钮 -->
 			<cl-multi-delete-btn />
 			<!-- Excel导入按钮 -->
-			<cl-import-btn template="/软著导入模版.csv" :on-submit="onImportSubmit" tips="请按照模板格式填写软著数据" />
+			<cl-import-btn template="/template_copyright.xlsx" :on-submit="onImportSubmit" :tips="t('请按照模板格式填写软著数据')" />
 			<!-- Excel导出按钮 -->
-			<cl-export-btn :columns="exportColumns" :filename="`软著数据_${new Date().toISOString().split('T')[0]}`" />
+			<cl-export-btn :columns="exportColumns"
+				:filename="`${t('软著数据')}_${new Date().toISOString().split('T')[0]}`" />
 			<cl-flex1 />
 			<!-- 条件搜索 -->
 			<cl-search ref="Search" />
@@ -417,7 +418,7 @@
 			data.forEach((row: any, index: number) => {
 				// 验证必填字段
 				if (!row.name || !row.category || !row.legalStatus) {
-					errors.push(`第${index + 1}行：名称、分类、法律状态为必填项`);
+					errors.push(t('第{index}行：名称、分类、法律状态为必填项', { index: index + 1 }));
 					return;
 				}
 
@@ -437,7 +438,7 @@
 			});
 
 			if (errors.length > 0) {
-				ElMessage.error(`导入失败：${errors.join('; ')}`);
+				ElMessage.error(`${t('导入失败')}：${errors.join('; ')}`);
 				return;
 			}
 
@@ -446,53 +447,53 @@
 				await service.intellectual.softCopyright.add(item);
 			}
 
-			ElMessage.success(`成功导入 ${validData.length} 条软著数据`);
+			ElMessage.success(t('成功导入{count}条软著数据', { count: validData.length }));
 			refresh();
 		} catch (error) {
-			console.error('导入软著数据失败:', error);
-			ElMessage.error('导入失败，请检查数据格式');
+			console.error(t('导入软著数据失败'), error);
+			ElMessage.error(t('导入失败，请检查数据格式'));
 		}
 	};
 
 	// 导出列配置
 	const exportColumns = computed(() => [
-		{ label: '软著名称', prop: 'name' },
-		{ label: '版本', prop: 'version' },
-		{ label: '简称', prop: 'shortName' },
+		{ label: t('软著名称'), prop: 'name' },
+		{ label: t('版本'), prop: 'version' },
+		{ label: t('简称'), prop: 'shortName' },
 		{
-			label: '分类',
+			label: t('分类'),
 			prop: 'category',
 			dict: categoryOptions.value
 		},
-		{ label: '流水号', prop: 'serialNumber' },
-		{ label: '登记号', prop: 'registrationNumber' },
-		{ label: '证书号', prop: 'certificateNumber' },
+		{ label: t('流水号'), prop: 'serialNumber' },
+		{ label: t('登记号'), prop: 'registrationNumber' },
+		{ label: t('证书号'), prop: 'certificateNumber' },
 		{
-			label: '开发方式',
+			label: t('开发方式'),
 			prop: 'developmentMethod',
 			dict: developmentMethodOptions.value
 		},
-		{ label: '完成日', prop: 'completionDate' },
-		{ label: '发表日', prop: 'publicationDate' },
-		{ label: '申请日', prop: 'applicationDate' },
-		{ label: '证书日', prop: 'certificateDate' },
+		{ label: t('完成日'), prop: 'completionDate' },
+		{ label: t('发表日'), prop: 'publicationDate' },
+		{ label: t('申请日'), prop: 'applicationDate' },
+		{ label: t('证书日'), prop: 'certificateDate' },
 		{
-			label: '获得方式',
+			label: t('取得方式'),
 			prop: 'acquisitionMethod',
 			dict: acquisitionMethodOptions.value
 		},
 		{
-			label: '权利范围',
+			label: t('权利范围'),
 			prop: 'scopeOfRight',
 			dict: scopeOfRightOptions.value
 		},
-		{ label: '权利人', prop: 'rightHolder' },
-		{ label: '申请人', prop: 'applicant' },
+		{ label: t('权利人'), prop: 'rightHolder' },
+		{ label: t('申请人'), prop: 'applicant' },
 		{
-			label: '法律状态',
+			label: t('法律状态'),
 			prop: 'legalStatus',
 			dict: legalStatusOptions.value
 		},
-		{ label: '备注', prop: 'remark' }
+		{ label: t('备注'), prop: 'remark' }
 	]);
 </script>

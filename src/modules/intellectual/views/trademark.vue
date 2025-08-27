@@ -8,9 +8,10 @@
 			<!-- 删除按钮 -->
 			<cl-multi-delete-btn />
 			<!-- Excel导入按钮 -->
-			<cl-import-btn template="/商标导入模版.csv" :on-submit="onImportSubmit" tips="请按照模板格式填写商标数据" />
+			<cl-import-btn template="/template_trademark.xlsx" :on-submit="onImportSubmit" :tips="t('请按照模板格式填写商标数据')" />
 			<!-- Excel导出按钮 -->
-			<cl-export-btn :columns="exportColumns" :filename="`商标数据_${new Date().toISOString().split('T')[0]}`" />
+			<cl-export-btn :columns="exportColumns"
+				:filename="`${t('商标数据')}_${new Date().toISOString().split('T')[0]}`" />
 			<cl-flex1 />
 			<!-- 条件搜索 -->
 			<cl-search ref="Search" />
@@ -410,7 +411,7 @@
 			});
 
 			if (errors.length > 0) {
-				ElMessage.error(`导入失败：${errors.join('; ')}`);
+				ElMessage.error(`${t('导入失败')}：${errors.join('; ')}`);
 				return;
 			}
 
@@ -423,41 +424,41 @@
 			refresh();
 		} catch (error) {
 			console.error('导入商标数据失败:', error);
-			ElMessage.error('导入失败，请检查数据格式');
+			ElMessage.error(t('导入失败，请检查数据格式'));
 		}
 	};
 
 	// 导出列配置
 	const exportColumns = computed(() => [
-		{ label: '注册号', prop: 'registrationNumber' },
-		{ label: '商标名称', prop: 'name' },
+		{ label: t('注册号'), prop: 'registrationNumber' },
+		{ label: t('商标名称'), prop: 'name' },
 		{
-			label: '类型',
+			label: t('类型'),
 			prop: 'type',
 			dict: dict.get('intellectual_trademark_type').value
 		},
 		{
-			label: '来源',
+			label: t('来源'),
 			prop: 'source',
 			dict: dict.get('intellectual_trademark_source').value
 		},
 		{
-			label: '分类号',
+			label: t('分类号'),
 			prop: 'classificationNumber',
 			dict: dict.get('intellectual_trademark_classification').value
 		},
-		{ label: '注册人', prop: 'registrant' },
-		{ label: '代理机构', prop: 'agency' },
-		{ label: '申请日', prop: 'applicationDate' },
-		{ label: '注册生效日', prop: 'registrationEffectiveDate' },
-		{ label: '有效期', prop: 'validityPeriod' },
-		{ label: '申请服务内容', prop: 'applicationServiceContent' },
-		{ label: '核定使用商品/服务项目', prop: 'approvedGoodsServices' },
+		{ label: t('注册人'), prop: 'registrant' },
+		{ label: t('代理机构'), prop: 'agency' },
+		{ label: t('申请日'), prop: 'applicationDate' },
+		{ label: t('注册生效日'), prop: 'registrationEffectiveDate' },
+		{ label: t('有效期'), prop: 'validityPeriod' },
+		{ label: t('申请服务内容'), prop: 'applicationServiceContent' },
+		{ label: t('核定使用商品/服务项目'), prop: 'approvedGoodsServices' },
 		{
-			label: '法律状态',
+			label: t('法律状态'),
 			prop: 'legalStatus',
 			dict: dict.get('intellectual_legal_status').value
 		},
-		{ label: '备注', prop: 'remark' }
+		{ label: t('备注'), prop: 'remark' }
 	]);
 </script>

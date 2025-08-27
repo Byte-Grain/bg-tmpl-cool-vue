@@ -8,9 +8,11 @@
 			<!-- 删除按钮 -->
 			<cl-multi-delete-btn />
 			<!-- Excel导入 -->
-			<cl-import-btn template="/专利导入模版.xlsx" :on-submit="onImportSubmit" :tips="t('请按照模版填写专利信息，确保必填字段完整')" />
+			<cl-import-btn template="/template_patent.xlsx" :on-submit="onImportSubmit"
+				:tips="t('请按照模版填写专利信息，确保必填字段完整')" />
 			<!-- Excel导出 -->
-			<cl-export-btn :columns="exportColumns" :filename="`专利数据_${new Date().toISOString().slice(0, 10)}`" />
+			<cl-export-btn :columns="exportColumns"
+				:filename="`${t('专利数据')}_${new Date().toISOString().slice(0, 10)}`" />
 			<cl-flex1 />
 			<!-- 条件搜索 -->
 			<cl-search ref="Search" />
@@ -356,33 +358,33 @@
 
 	// 导出列配置
 	const exportColumns = computed(() => [
-		{ label: '专利名称', prop: 'name' },
-		{ label: '案号', prop: 'caseNumber' },
-		{ label: '专利号', prop: 'patentNumber' },
-		{ label: '证书号', prop: 'certificateNumber' },
-		{ label: '授权公告号', prop: 'authorizationAnnouncementNumber' },
-		{ label: '申请日', prop: 'applicationDate' },
-		{ label: '证书日', prop: 'certificateDate' },
-		{ label: '专利权利人', prop: 'patentee' },
+		{ label: t('专利名称'), prop: 'name' },
+		{ label: t('案号'), prop: 'caseNumber' },
+		{ label: t('专利号'), prop: 'patentNumber' },
+		{ label: t('证书号'), prop: 'certificateNumber' },
+		{ label: t('授权公告号'), prop: 'authorizationAnnouncementNumber' },
+		{ label: t('申请日'), prop: 'applicationDate' },
+		{ label: t('证书日'), prop: 'certificateDate' },
+		{ label: t('专利权利人'), prop: 'patentee' },
 		{
-			label: '专利类型',
+			label: t('专利类型'),
 			prop: 'patentType',
 			dict: dict.get('intellectual_patent_type').value
 		},
 		{
-			label: '法律状态',
+			label: t('法律状态'),
 			prop: 'legalStatus',
 			dict: dict.get('intellectual_legal_status').value
 		},
-		{ label: '发明人', prop: 'inventor' },
-		{ label: '代理机构', prop: 'agency' },
+		{ label: t('发明人'), prop: 'inventor' },
+		{ label: t('代理机构'), prop: 'agency' },
 		{
-			label: '专利级别',
+			label: t('专利级别'),
 			prop: 'patentLevel',
 			dict: dict.get('intellectual_patent_level').value
 		},
-		{ label: '权力要求', prop: 'claimsRequirement' },
-		{ label: '备注', prop: 'remark' }
+		{ label: t('权力要求'), prop: 'claimsRequirement' },
+		{ label: t('备注'), prop: 'remark' }
 	]);
 
 	// Excel导入处理
@@ -415,58 +417,58 @@
 		data.list.forEach((item: any, index: number) => {
 			// 跳过空行和说明行
 			if (
-				!item['专利名称'] ||
-				item['专利名称'].includes('填写说明') ||
-				item['专利名称'].includes('专利名称')
+				!item[t('专利名称')] ||
+				item[t('专利名称')].includes(t('填写说明')) ||
+				item[t('专利名称')].includes(t('专利名称'))
 			) {
 				return;
 			}
 
 			// 验证必填字段
-			if (!item['专利名称']) {
-				errors.push(`第${index + 1}行：专利名称不能为空`);
+			if (!item[t('专利名称')]) {
+				errors.push(t('第{index}行：专利名称不能为空', { index: index + 1 }));
 				return;
 			}
-			if (!item['专利类型']) {
-				errors.push(`第${index + 1}行：专利类型不能为空`);
+			if (!item[t('专利类型')]) {
+				errors.push(t('第{index}行：专利类型不能为空', { index: index + 1 }));
 				return;
 			}
-			if (!item['法律状态']) {
-				errors.push(`第${index + 1}行：法律状态不能为空`);
+			if (!item[t('法律状态')]) {
+				errors.push(t('第{index}行：法律状态不能为空', { index: index + 1 }));
 				return;
 			}
 
 			// 转换字典值
-			const patentType = patentTypeMap.get(item['专利类型']);
-			const legalStatus = legalStatusMap.get(item['法律状态']);
-			const patentLevel = patentLevelMap.get(item['专利级别']);
+			const patentType = patentTypeMap.get(item[t('专利类型')]);
+			const legalStatus = legalStatusMap.get(item[t('法律状态')]);
+			const patentLevel = patentLevelMap.get(item[t('专利级别')]);
 
 			if (patentType === undefined) {
-				errors.push(`第${index + 1}行：专利类型"${item['专利类型']}"不在字典中`);
+				errors.push(t('第{index}行：专利类型"{type}"不在字典中', { index: index + 1, type: item[t('专利类型')] }));
 				return;
 			}
 			if (legalStatus === undefined) {
-				errors.push(`第${index + 1}行：法律状态"${item['法律状态']}"不在字典中`);
+				errors.push(t('第{index}行：法律状态"{status}"不在字典中', { index: index + 1, status: item[t('法律状态')] }));
 				return;
 			}
 
 			// 构建数据对象
 			const processedItem = {
-				name: item['专利名称'],
-				caseNumber: item['案号'] || '',
-				patentNumber: item['专利号'] || '',
-				certificateNumber: item['证书号'] || '',
-				authorizationAnnouncementNumber: item['授权公告号'] || '',
-				applicationDate: item['申请日'] || null,
-				certificateDate: item['证书日'] || null,
-				patentee: item['专利权利人'] || '',
+				name: item[t('专利名称')],
+				caseNumber: item[t('案号')] || '',
+				patentNumber: item[t('专利号')] || '',
+				certificateNumber: item[t('证书号')] || '',
+				authorizationAnnouncementNumber: item[t('授权公告号')] || '',
+				applicationDate: item[t('申请日')] || null,
+				certificateDate: item[t('证书日')] || null,
+				patentee: item[t('专利权利人')] || '',
 				patentType: patentType,
 				legalStatus: legalStatus,
-				inventor: item['发明人'] || '',
-				agency: item['代理机构'] || '',
+				inventor: item[t('发明人')] || '',
+				agency: item[t('代理机构')] || '',
 				patentLevel: patentLevel || null,
-				claimsRequirement: item['权力要求'] || '',
-				remark: item['备注'] || ''
+				claimsRequirement: item[t('权力要求')] || '',
+				remark: item[t('备注')] || ''
 			};
 
 			validData.push(processedItem);
@@ -475,7 +477,7 @@
 		// 显示错误信息
 		if (errors.length > 0) {
 			ElMessage.error(
-				`数据验证失败：\n${errors.slice(0, 5).join('\n')}${errors.length > 5 ? '\n...' : ''}`
+				t('数据验证失败：\n{errors}\n...', { errors: errors.slice(0, 5).join('\n') + (errors.length > 5 ? '\n...' : '') })
 			);
 			return;
 		}

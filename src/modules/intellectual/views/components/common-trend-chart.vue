@@ -12,6 +12,7 @@
 import { computed, reactive, watch } from 'vue';
 import { useDark } from '@vueuse/core';
 import { useTheme } from '/#/theme';
+import { useI18n } from 'vue-i18n';
 
 interface TrendData {
 	year: string;
@@ -41,6 +42,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const isDark = useDark();
 const theme = useTheme();
+const { t } = useI18n();
 
 const chartOption = reactive({
 	grid: {
@@ -79,7 +81,7 @@ const chartOption = reactive({
 	tooltip: {
 		trigger: 'axis',
 		formatter: (comp: any) => {
-			let result = `${comp[0].name}年<br/>`;
+			let result = `${comp[0].name}${t('年')}<br/>`;
 			comp.forEach((item: any) => {
 				result += `${item.seriesName}：${item.value || 0}<br/>`;
 			});
