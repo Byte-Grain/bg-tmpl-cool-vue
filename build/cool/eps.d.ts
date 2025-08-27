@@ -455,6 +455,16 @@ declare namespace Eps {
 		parentId?: number;
 
 		/**
+		 * el-tag类型
+		 */
+		type?: string;
+
+		/**
+		 * el-tag颜色
+		 */
+		color?: string;
+
+		/**
 		 * 创建时间
 		 */
 		createTime?: string;
@@ -485,6 +495,464 @@ declare namespace Eps {
 		 * 标识
 		 */
 		key?: string;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface HealthAlarmRuleEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 设备参数
+		 */
+		deviceParam?: string;
+
+		/**
+		 * 下限
+		 */
+		lowerLimit?: number;
+
+		/**
+		 * 上限
+		 */
+		upperLimit?: number;
+
+		/**
+		 * 状态
+		 */
+		status?: number;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface HealthDeviceEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 编号
+		 */
+		code?: string;
+
+		/**
+		 * 名称
+		 */
+		name?: string;
+
+		/**
+		 * 型号
+		 */
+		model?: string;
+
+		/**
+		 * SN
+		 */
+		sn?: string;
+
+		/**
+		 * MAC
+		 */
+		mac?: string;
+
+		/**
+		 * 生产日期
+		 */
+		productionDate?: Date;
+
+		/**
+		 * 使用年限
+		 */
+		usageYears?: number;
+
+		/**
+		 * 状态
+		 */
+		status?: number;
+
+		/**
+		 * 生产厂商
+		 */
+		manufacturer?: string;
+
+		/**
+		 * 备注
+		 */
+		remark?: string;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface HealthDeviceParamEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 设备编号
+		 */
+		deviceCode?: string;
+
+		/**
+		 * 名称
+		 */
+		name?: string;
+
+		/**
+		 * 单位
+		 */
+		unit?: string;
+
+		/**
+		 * 最大值
+		 */
+		maxValue?: number;
+
+		/**
+		 * 最小值
+		 */
+		minValue?: number;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface HealthDeviceTypeEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 名称
+		 */
+		name?: string;
+
+		/**
+		 * 描述
+		 */
+		description?: string;
+
+		/**
+		 * 类型
+		 */
+		type?: string;
+
+		/**
+		 * 备注
+		 */
+		remark?: string;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface HealthEventGroupEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 分组名称
+		 */
+		name?: string;
+
+		/**
+		 * 备注
+		 */
+		remark?: string;
+
+		/**
+		 * 排序
+		 */
+		orderNum?: number;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface HealthEventTagEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 名称
+		 */
+		name?: string;
+
+		/**
+		 * 颜色
+		 */
+		color?: string;
+
+		/**
+		 * 分组
+		 */
+		groupId?: number;
+
+		/**
+		 * 备注
+		 */
+		remark?: string;
+
+		/**
+		 * 排序
+		 */
+		orderNum?: number;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 分组名称
+		 */
+		groupName?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface HealthParadigmTypeEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 名称
+		 */
+		name?: string;
+
+		/**
+		 * 配置信息
+		 */
+		configInfo?: string;
+
+		/**
+		 * 备注
+		 */
+		remark?: string;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface HealthTaskEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 名称
+		 */
+		name?: string;
+
+		/**
+		 * 关联用户
+		 */
+		userId?: number;
+
+		/**
+		 * 范式类型
+		 */
+		paradigmType?: string;
+
+		/**
+		 * 任务配置
+		 */
+		taskConfig?: string;
+
+		/**
+		 * 设备配置
+		 */
+		deviceConfig?: string;
+
+		/**
+		 * 状态
+		 */
+		status?: number;
+
+		/**
+		 * 开始时间
+		 */
+		startTime?: Date;
+
+		/**
+		 * 结束时间
+		 */
+		endTime?: Date;
+
+		/**
+		 * 任务时长
+		 */
+		taskDuration?: number;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 姓名
+		 */
+		userName?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface HealthUserEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 账号
+		 */
+		account?: string;
+
+		/**
+		 * 姓名
+		 */
+		name?: string;
+
+		/**
+		 * 性别
+		 */
+		gender?: number;
+
+		/**
+		 * 年龄
+		 */
+		age?: number;
+
+		/**
+		 * 电话
+		 */
+		phone?: string;
+
+		/**
+		 * 地址
+		 */
+		address?: string;
+
+		/**
+		 * 备注
+		 */
+		remark?: string;
 
 		/**
 		 * 创建时间
@@ -961,26 +1429,6 @@ declare namespace Eps {
 		description?: string;
 
 		/**
-		 * 生日
-		 */
-		birthday?: string;
-
-		/**
-		 * 省
-		 */
-		province?: string;
-
-		/**
-		 * 市
-		 */
-		city?: string;
-
-		/**
-		 * 区
-		 */
-		district?: string;
-
-		/**
 		 * 创建时间
 		 */
 		createTime?: string;
@@ -1049,6 +1497,51 @@ declare namespace Eps {
 	interface DictTypePageResponse {
 		pagination: PagePagination;
 		list: DictTypeEntity[];
+	}
+
+	interface HealthAlarmRulePageResponse {
+		pagination: PagePagination;
+		list: HealthAlarmRuleEntity[];
+	}
+
+	interface HealthDevicePageResponse {
+		pagination: PagePagination;
+		list: HealthDeviceEntity[];
+	}
+
+	interface HealthDeviceParamPageResponse {
+		pagination: PagePagination;
+		list: HealthDeviceParamEntity[];
+	}
+
+	interface HealthDeviceTypePageResponse {
+		pagination: PagePagination;
+		list: HealthDeviceTypeEntity[];
+	}
+
+	interface HealthEventGroupPageResponse {
+		pagination: PagePagination;
+		list: HealthEventGroupEntity[];
+	}
+
+	interface HealthEventTagPageResponse {
+		pagination: PagePagination;
+		list: HealthEventTagEntity[];
+	}
+
+	interface HealthParadigmTypePageResponse {
+		pagination: PagePagination;
+		list: HealthParadigmTypeEntity[];
+	}
+
+	interface HealthTaskPageResponse {
+		pagination: PagePagination;
+		list: HealthTaskEntity[];
+	}
+
+	interface HealthUserPageResponse {
+		pagination: PagePagination;
+		list: HealthUserEntity[];
 	}
 
 	interface PluginInfoPageResponse {
@@ -1789,6 +2282,528 @@ declare namespace Eps {
 		request: Request;
 	}
 
+	interface HealthAlarmRule {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<HealthAlarmRuleEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<HealthAlarmRuleEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<HealthAlarmRulePageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface HealthDevice {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<HealthDeviceEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<HealthDeviceEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<HealthDevicePageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface HealthDeviceParam {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<HealthDeviceParamEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<HealthDeviceParamEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<HealthDeviceParamPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface HealthDeviceType {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<HealthDeviceTypeEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<HealthDeviceTypeEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<HealthDeviceTypePageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface HealthEventGroup {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<HealthEventGroupEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<HealthEventGroupEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<HealthEventGroupPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface HealthEventTag {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<HealthEventTagEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<HealthEventTagEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<HealthEventTagPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface HealthParadigmType {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<HealthParadigmTypeEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<HealthParadigmTypeEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<HealthParadigmTypePageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface HealthTask {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<HealthTaskEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<HealthTaskEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<HealthTaskPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface HealthUser {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<HealthUserEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<HealthUserEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<HealthUserPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
 	interface PluginInfo {
 		/**
 		 * 安装插件
@@ -2226,6 +3241,17 @@ declare namespace Eps {
 		};
 		demo: { goods: DemoGoods; tenant: DemoTenant };
 		dict: { info: DictInfo; type: DictType };
+		health: {
+			alarmRule: HealthAlarmRule;
+			device: HealthDevice;
+			deviceParam: HealthDeviceParam;
+			deviceType: HealthDeviceType;
+			eventGroup: HealthEventGroup;
+			eventTag: HealthEventTag;
+			paradigmType: HealthParadigmType;
+			task: HealthTask;
+			user: HealthUser;
+		};
 		plugin: { info: PluginInfo };
 		recycle: { data: RecycleData };
 		space: { info: SpaceInfo; type: SpaceType };
