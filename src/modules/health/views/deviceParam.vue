@@ -30,7 +30,7 @@
 
 <script lang="ts" setup>
 defineOptions({
-	name: "health-deviceParam",
+	name: "health-device-param",
 });
 
 import { useCrud, useTable, useUpsert, useSearch } from "@cool-vue/crud";

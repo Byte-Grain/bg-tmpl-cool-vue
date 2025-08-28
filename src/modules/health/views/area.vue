@@ -56,7 +56,7 @@
 
 <script lang="ts" setup>
 	defineOptions({
-		name: 'health-event'
+		name: 'health-area'
 	});
 
 	import { useCrud, useTable, useUpsert } from '@cool-vue/crud';
@@ -69,12 +69,12 @@
 	const { t } = useI18n();
 
 	const { ViewGroup } = useViewGroup({
-		label: t('事件分组'),
-		title: t('事件分组'),
-		service: service.health.eventGroup,
+		label: t('区域'),
+		title: t('区域'),
+		service: service.health.area,
 		onSelect(item) {
 			refresh({
-				groupId: item.id,
+				areaId: item.id,
 				page: 1,
 				prop: 'orderNum',
 				order: 'desc'
@@ -119,17 +119,13 @@
 				component: { name: 'el-input' }
 			},
 			{
-				label: t('颜色'),
-				prop: 'color',
-				required: true,
-				component: {
-					name: 'el-color-picker',
-					props: {
-						showAlpha: false,
-						colorFormat: 'hex',
-						size: 'default'
-					}
-				}
+				label: t('状态'),
+				prop: 'status',
+				component: { name: 'el-radio-group' },
+				options: [
+					{ label: t('禁用'), value: 0 },
+					{ label: t('启用'), value: 1 }
+				]
 			},
 			{
 				label: t('排序'),
@@ -149,10 +145,7 @@
 		onSubmit(data, { next }) {
 			next({
 				...data,
-				groupId: ViewGroup.value?.selected?.id,
-				// 确保type和color字段为空时传递空字符串而不是null或undefined
-				type: data.type || '',
-				color: data.color || ''
+				areaId: ViewGroup.value?.selected?.id,
 			});
 		},
 		plugins: [Plugins.Form.setFocus('name')]
@@ -165,7 +158,7 @@
 			row => {
 				return {
 					label: t('新增'),
-					hidden: !service.health.eventGroup._permission?.add,
+					hidden: !service.health.area._permission?.add,
 					callback(done) {
 						append(row);
 						done();
@@ -181,11 +174,15 @@
 			{
 				type: 'selection'
 			},
-			{ label: t('事件名称'), prop: 'name', align: 'left', minWidth: 100 },
+			{ label: t('名称'), prop: 'name', align: 'left', minWidth: 100 },
 			{
-				label: t('颜色'),
-				prop: 'color',
-				width: 100
+				label: t('状态'),
+				prop: 'status',
+				component: { name: 'el-tag' },
+				options: [
+					{ label: t('禁用'), value: 0 },
+					{ label: t('启用'), value: 1 }
+				]
 			},
 			{
 				label: t('备注'),
@@ -200,18 +197,6 @@
 				width: 100,
 				fixed: 'right'
 			},
-			// {
-			// 	label: t('创建时间'),
-			// 	prop: 'createTime',
-			// 	sortable: 'custom',
-			// 	minWidth: 170
-			// },
-			// {
-			// 	label: t('更新时间'),
-			// 	prop: 'updateTime',
-			// 	sortable: 'custom',
-			// 	minWidth: 170
-			// },
 			{
 				type: 'op',
 				width: 250,
@@ -219,7 +204,7 @@
 					{
 						label: t('新增'),
 						type: 'success',
-						hidden: !service.health.eventTag._permission.add,
+						hidden: !service.health.areaLocation._permission.add,
 						onClick({ scope }) {
 							append(scope.row);
 						}
@@ -234,9 +219,9 @@
 
 	// cl-crud
 	const Crud = useCrud({
-		service: service.health.eventTag,
+		service: service.health.areaLocation,
 		onRefresh(params, { render }) {
-			service.health.eventTag.list(params).then(res => {
+			service.health.areaLocation.list(params).then(res => {
 				render(res);
 			});
 		}
@@ -250,7 +235,7 @@
 	// 追加子集
 	function append(row: any) {
 		Crud.value?.rowAppend({
-			groupId: row.id,
+			areaId: row.id,
 			orderNum: 1
 		});
 	}

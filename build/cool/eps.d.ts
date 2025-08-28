@@ -554,6 +554,100 @@ declare namespace Eps {
 		[key: string]: any;
 	}
 
+	interface HealthAreaEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 名称
+		 */
+		name?: string;
+
+		/**
+		 * 位置
+		 */
+		location?: string;
+
+		/**
+		 * 排序
+		 */
+		order?: number;
+
+		/**
+		 * 备注
+		 */
+		remark?: string;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface HealthAreaLocationEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 所属区域ID
+		 */
+		areaId?: number;
+
+		/**
+		 * 名称
+		 */
+		name?: string;
+
+		/**
+		 * 状态
+		 */
+		status?: number;
+
+		/**
+		 * 排序
+		 */
+		orderNum?: number;
+
+		/**
+		 * 备注
+		 */
+		remark?: string;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 名称
+		 */
+		areaName?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
 	interface HealthDeviceEntity {
 		/**
 		 * ID
@@ -656,48 +750,6 @@ declare namespace Eps {
 		 * 最小值
 		 */
 		minValue?: number;
-
-		/**
-		 * 创建时间
-		 */
-		createTime?: string;
-
-		/**
-		 * 更新时间
-		 */
-		updateTime?: string;
-
-		/**
-		 * 任意键值
-		 */
-		[key: string]: any;
-	}
-
-	interface HealthDeviceTypeEntity {
-		/**
-		 * ID
-		 */
-		id?: number;
-
-		/**
-		 * 名称
-		 */
-		name?: string;
-
-		/**
-		 * 描述
-		 */
-		description?: string;
-
-		/**
-		 * 类型
-		 */
-		type?: string;
-
-		/**
-		 * 备注
-		 */
-		remark?: string;
 
 		/**
 		 * 创建时间
@@ -920,9 +972,9 @@ declare namespace Eps {
 		id?: number;
 
 		/**
-		 * 账号
+		 * 编号
 		 */
-		account?: string;
+		number?: string;
 
 		/**
 		 * 姓名
@@ -935,9 +987,34 @@ declare namespace Eps {
 		gender?: number;
 
 		/**
-		 * 年龄
+		 * 出生日期
 		 */
-		age?: number;
+		birthDate?: Date;
+
+		/**
+		 * 年龄（岁）
+		 */
+		ageYear?: number;
+
+		/**
+		 * 年龄（周）
+		 */
+		ageWeek?: number;
+
+		/**
+		 * 年龄（天）
+		 */
+		ageDay?: number;
+
+		/**
+		 * 身高
+		 */
+		height?: number;
+
+		/**
+		 * 体重
+		 */
+		weight?: number;
 
 		/**
 		 * 电话
@@ -948,6 +1025,16 @@ declare namespace Eps {
 		 * 地址
 		 */
 		address?: string;
+
+		/**
+		 * 住院状态
+		 */
+		hospitalStatus?: number;
+
+		/**
+		 * 床号
+		 */
+		bedNumber?: number;
 
 		/**
 		 * 备注
@@ -1504,6 +1591,16 @@ declare namespace Eps {
 		list: HealthAlarmRuleEntity[];
 	}
 
+	interface HealthAreaPageResponse {
+		pagination: PagePagination;
+		list: HealthAreaEntity[];
+	}
+
+	interface HealthAreaLocationPageResponse {
+		pagination: PagePagination;
+		list: HealthAreaLocationEntity[];
+	}
+
 	interface HealthDevicePageResponse {
 		pagination: PagePagination;
 		list: HealthDeviceEntity[];
@@ -1512,11 +1609,6 @@ declare namespace Eps {
 	interface HealthDeviceParamPageResponse {
 		pagination: PagePagination;
 		list: HealthDeviceParamEntity[];
-	}
-
-	interface HealthDeviceTypePageResponse {
-		pagination: PagePagination;
-		list: HealthDeviceTypeEntity[];
 	}
 
 	interface HealthEventGroupPageResponse {
@@ -2340,6 +2432,122 @@ declare namespace Eps {
 		request: Request;
 	}
 
+	interface HealthArea {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<HealthAreaEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<HealthAreaEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<HealthAreaPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface HealthAreaLocation {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<HealthAreaLocationEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<HealthAreaLocationEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<HealthAreaLocationPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
 	interface HealthDevice {
 		/**
 		 * 删除
@@ -2423,64 +2631,6 @@ declare namespace Eps {
 		 * 分页查询
 		 */
 		page(data?: any): Promise<HealthDeviceParamPageResponse>;
-
-		/**
-		 * 新增
-		 */
-		add(data?: any): Promise<any>;
-
-		/**
-		 * 权限标识
-		 */
-		permission: {
-			delete: string;
-			update: string;
-			info: string;
-			list: string;
-			page: string;
-			add: string;
-		};
-
-		/**
-		 * 权限状态
-		 */
-		_permission: {
-			delete: boolean;
-			update: boolean;
-			info: boolean;
-			list: boolean;
-			page: boolean;
-			add: boolean;
-		};
-
-		request: Request;
-	}
-
-	interface HealthDeviceType {
-		/**
-		 * 删除
-		 */
-		delete(data?: any): Promise<any>;
-
-		/**
-		 * 修改
-		 */
-		update(data?: any): Promise<any>;
-
-		/**
-		 * 单个信息
-		 */
-		info(data?: any): Promise<HealthDeviceTypeEntity>;
-
-		/**
-		 * 列表查询
-		 */
-		list(data?: any): Promise<HealthDeviceTypeEntity[]>;
-
-		/**
-		 * 分页查询
-		 */
-		page(data?: any): Promise<HealthDeviceTypePageResponse>;
 
 		/**
 		 * 新增
@@ -3243,9 +3393,10 @@ declare namespace Eps {
 		dict: { info: DictInfo; type: DictType };
 		health: {
 			alarmRule: HealthAlarmRule;
+			area: HealthArea;
+			areaLocation: HealthAreaLocation;
 			device: HealthDevice;
 			deviceParam: HealthDeviceParam;
-			deviceType: HealthDeviceType;
 			eventGroup: HealthEventGroup;
 			eventTag: HealthEventTag;
 			paradigmType: HealthParadigmType;
